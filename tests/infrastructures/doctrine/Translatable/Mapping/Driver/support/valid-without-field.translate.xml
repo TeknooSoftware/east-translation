@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--infrastructures/doctrine/config/translate/Content.mongodb.yml-->
+<east-translation xmlns="http://xml.teknoo.it/schemas/doctrine/east-translation"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://xml.teknoo.it/schemas/doctrine/east-translation
+                                              http://xml.teknoo.it/schemas/doctrine/east-translation.xsd">
+
+    <object name="Teknoo\East\Translation\Doctrine\Object\Content">
+    </object>
+</east-translation>

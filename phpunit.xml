@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         backupStaticProperties="false"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         failOnNotice="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         failOnDeprecation="true"
+         failOnPhpunitDeprecation="true"
+         processIsolation="false"
+         stopOnFailure="false"
+  >
+  <coverage/>
+  <testsuites>
+    <testsuite name="Teknoo Software/East Translation Test Suite">
+      <directory suffix="Test.php">tests/infrastructures</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>src</directory>
+      <directory>infrastructures</directory>
+    </include>
+    <exclude>
+      <directory>docs</directory>
+      <directory>demo</directory>
+      <directory>licences</directory>
+    </exclude>
+  </source>
+</phpunit>

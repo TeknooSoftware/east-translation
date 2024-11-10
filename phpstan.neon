@@ -1,0 +1,24 @@
+parameters:
+    ignoreErrors:
+        -
+            message: '#Cannot cast mixed to string#'
+            path: infrastructures
+        -
+            message: '#mixed#'
+            path: infrastructures/doctrine/di.php
+        -
+            message: '#supplied for foreach, only iterables are supported#'
+            path: infrastructures/doctrine/Translatable/Persistence/Adapter/ODM.php
+        -
+            message: '#Teknoo\\East\\Translation\\Doctrine\\Object\\Translation::\$[a-zA-Z0-9]+ is never read, only written#'
+            path: infrastructures/doctrine/Object/Translation.php
+        -
+            message: "#Offset 'name'#"
+            path: infrastructures/doctrine/Translatable/Persistence/Adapter/ODM.php
+        -
+            message: '#does not accept non-empty-array#'
+            path: infrastructures/doctrine/Translatable/TranslatableListener.php
+        -
+            message: '#ClassMetadata<object>#'
+            path: infrastructures/doctrine/Translatable/
+
