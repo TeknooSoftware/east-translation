@@ -1,7 +1,7 @@
 {
     "name": "teknoo/east-translation",
     "type": "library",
-    "description": "Translation extension in East applications or website to manage easily translatable objects",
+    "description": "Extension to provide translations in East applications or website to manage easily translatable objects",
     "keywords": ["east","translation"],
     "homepage": "http://teknoo.software/east/translation",
     "license": "MIT",
