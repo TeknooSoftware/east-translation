@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace Teknoo\East\Translation\Doctrine\Translatable\Mapping;
 
-use Doctrine\Persistence\Mapping\AbstractClassMetadataFactory;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactoryInterface;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
@@ -56,12 +56,9 @@ use function str_replace;
  */
 class ExtensionMetadataFactory
 {
-    /**
-     * @param AbstractClassMetadataFactory<ClassMetadataODM<IdentifiedObjectInterface>> $classMetadataFactory
-     */
     public function __construct(
         private readonly ObjectManager $objectManager,
-        private readonly AbstractClassMetadataFactory $classMetadataFactory,
+        private readonly ClassMetadataFactoryInterface $classMetadataFactory,
         private readonly MappingDriver $mappingDriver,
         private readonly DriverFactoryInterface $driverFactory,
         private ?CacheItemPoolInterface $cache = null,

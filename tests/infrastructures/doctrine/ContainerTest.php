@@ -30,6 +30,7 @@ use DI\ContainerBuilder;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactoryInterface;
 use Doctrine\Persistence\Mapping\AbstractClassMetadataFactory;
 use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
@@ -172,7 +173,7 @@ class ContainerTest extends TestCase
         $configuration = $this->createMock(Configuration::class);
         $configuration->expects($this->any())->method('getMetadataDriverImpl')->willReturn($driver);
 
-        $mappingFactory = $this->createMock(AbstractClassMetadataFactory::class);
+        $mappingFactory = $this->createMock(ClassMetadataFactoryInterface::class);
 
         $objectManager = $this->createMock(DocumentManager::class);
         $objectManager->expects($this->any())->method('getConfiguration')->willReturn($configuration);

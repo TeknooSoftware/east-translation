@@ -2,8 +2,11 @@
 
 namespace Doctrine\ODM\MongoDB\Query;
 
+use Doctrine\ODM\MongoDB\Iterator\IterableResult;
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
+
 if (!\class_exists(Query::class, false)) {
-    class Query
+    class Query implements IterableResult
     {
         final public const TYPE_FIND            = 1;
         final public const TYPE_FIND_AND_UPDATE = 2;
@@ -22,7 +25,7 @@ if (!\class_exists(Query::class, false)) {
         /**
          * @var iterable|int
          */
-        public function execute()
+        public function execute(): mixed
         {
             return [];
         }
@@ -30,7 +33,7 @@ if (!\class_exists(Query::class, false)) {
         /**
          * @return array|object|null
          */
-        public function getSingleResult()
+        public function getSingleResult(): mixed
         {
 
         }
@@ -38,6 +41,11 @@ if (!\class_exists(Query::class, false)) {
         public function setHydrate(bool $hydrate) : void
         {
 
+        }
+
+        public function getIterator(): Iterator
+        {
+            // TODO: Implement getIterator() method.
         }
     }
 }

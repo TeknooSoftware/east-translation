@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace Teknoo\Tests\East\Translation\Doctrine\Translatable\Mapping;
 
-use Doctrine\Persistence\Mapping\AbstractClassMetadataFactory;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactoryInterface;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileDriver;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
@@ -61,7 +61,7 @@ class ExtensionMetadataFactoryTest extends TestCase
 {
     private ?ObjectManager $objectManager = null;
 
-    private ?AbstractClassMetadataFactory $classMetadataFactory = null;
+    private ?ClassMetadataFactoryInterface $classMetadataFactory = null;
 
     private ?MappingDriver $mappingDriver = null;
 
@@ -82,12 +82,12 @@ class ExtensionMetadataFactoryTest extends TestCase
     }
 
     /**
-     * @return AbstractClassMetadataFactory|\PHPUnit\Framework\MockObject\MockObject
+     * @return ClassMetadataFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    public function getClassMetadataFactory(): AbstractClassMetadataFactory
+    public function getClassMetadataFactory(): ClassMetadataFactoryInterface
     {
-        if (!$this->classMetadataFactory instanceof AbstractClassMetadataFactory) {
-            $this->classMetadataFactory = $this->createMock(AbstractClassMetadataFactory::class);
+        if (!$this->classMetadataFactory instanceof ClassMetadataFactoryInterface) {
+            $this->classMetadataFactory = $this->createMock(ClassMetadataFactoryInterface::class);
         }
 
         return $this->classMetadataFactory;
