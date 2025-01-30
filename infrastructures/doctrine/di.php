@@ -30,8 +30,6 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as OdmClassMetadata;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use ProxyManager\Proxy\GhostObjectInterface;
 use Psr\Container\ContainerInterface;
 use SimpleXMLElement;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -43,7 +41,6 @@ use Teknoo\East\Common\Contracts\Recipe\Plan\EditObjectEndPointInterface;
 use Teknoo\East\Common\Contracts\Recipe\Plan\ListObjectEndPointInterface;
 use Teknoo\East\Common\Contracts\Recipe\Plan\MinifierCommandInterface;
 use Teknoo\East\Common\Contracts\Recipe\Plan\RenderStaticContentEndPointInterface;
-use Teknoo\East\Common\Contracts\Service\ProxyDetectorInterface;
 use Teknoo\East\Translation\Contracts\DBSource\TranslationManagerInterface;
 use Teknoo\East\Translation\Contracts\Object\TranslatableInterface;
 use Teknoo\East\Translation\Contracts\Recipe\Step\LoadTranslationsInterface;
@@ -62,7 +59,6 @@ use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\DocumentWrapper;
 use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\FactoryInterface as WrapperFactory;
 use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\WrapperInterface;
 use Teknoo\East\Common\Middleware\LocaleMiddleware;
-use Teknoo\Recipe\Promise\PromiseInterface;
 
 use function DI\create;
 use function DI\decorate;
@@ -182,31 +178,6 @@ return [
         }
 
         return new LocaleMiddleware($callback);
-    },
-
-    ProxyDetectorInterface::class => static function (): ProxyDetectorInterface {
-        return new class implements ProxyDetectorInterface {
-            public function checkIfInstanceBehindProxy(
-                object $object,
-                PromiseInterface $promise
-            ): ProxyDetectorInterface {
-                if (!$object instanceof GhostObjectInterface) {
-                    $promise->fail(new Exception('Object is not behind a proxy'));
-
-                    return $this;
-                }
-
-                if ($object->isProxyInitialized()) {
-                    $promise->fail(new Exception('Proxy is already initialized'));
-
-                    return $this;
-                }
-
-                $promise->success($object);
-
-                return $this;
-            }
-        };
     },
 
     // @codeCoverageIgnoreStart
