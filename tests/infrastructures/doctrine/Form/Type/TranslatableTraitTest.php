@@ -36,7 +36,6 @@ use Teknoo\Tests\East\Translation\Support\Form\ObjectOfTestType;
  * @license     https://teknoo.software/license/mit         MIT License
  * @author      Richard Déloge <richard@teknoo.software>
  */
-#[CoversClass(ObjectOfTestType::class)]
 class TranslatableTraitTest extends TestCase
 {
     public function buildForm()
