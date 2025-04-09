@@ -1,5 +1,11 @@
 # Teknoo Software - Translation - Change Log
 
+## [1.1.0] - 2025-04-09
+### Stable Release
+- Drop Support of PHP 8.2
+- Drop Support of Doctrine Persistence 3
+- Fix bug in compliance with Doctrine Persistence 4
+- 
 ## [1.0.3] - 2025-02-07
 ### Stable Release
 - Update dev lib requirements
