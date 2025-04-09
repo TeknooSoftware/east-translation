@@ -61,5 +61,5 @@ interface AdapterInterface extends ManagerInterface
         TranslatableInterface $object
     ): AdapterInterface;
 
-    public function setObjectPropertyInManager(string $oid, string $property, mixed $value): AdapterInterface;
+    public function setObjectPropertyInManager(int $oid, string $property, mixed $value): AdapterInterface;
 }

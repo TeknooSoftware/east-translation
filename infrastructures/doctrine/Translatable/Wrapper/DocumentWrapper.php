@@ -34,7 +34,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\Persistence\AdapterInterface;
 use Teknoo\East\Translation\Doctrine\Translatable\TranslationInterface;
 use Teknoo\East\Common\Contracts\Object\IdentifiedObjectInterface;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 /**
  * Implementation of WrapperInterface dedicated to Document managed by Doctrine ODM, to allow this extension to work
@@ -103,7 +103,7 @@ class DocumentWrapper implements WrapperInterface
     {
         // ensure clean changeset
         $manager->setObjectPropertyInManager(
-            spl_object_hash($this->getObject()),
+            spl_object_id($this->getObject()),
             $name,
             $this->getPropertyValue($name)
         );

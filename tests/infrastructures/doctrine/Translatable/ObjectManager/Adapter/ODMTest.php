@@ -326,7 +326,7 @@ class ODMTest extends TestCase
 
         self::assertInstanceOf(
             ODM::class,
-            $this->build()->setObjectPropertyInManager('foo', 'bar', 'hello')
+            $this->build()->setObjectPropertyInManager(123, 'bar', 'hello')
         );
     }
 }

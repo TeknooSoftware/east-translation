@@ -168,22 +168,22 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = true;
 
-            public function getName() {}
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+            public function getName(): string {}
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $listener = $this->createMock(TranslatableListener::class);
@@ -203,24 +203,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string
+            {
                 return ObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $listener = $this->createMock(TranslatableListener::class);
@@ -239,24 +240,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return ObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(FileDriver::class);
@@ -280,24 +282,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return ObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(FileDriver::class);
@@ -331,24 +334,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return ObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(MappingDriverChain::class);
@@ -378,24 +382,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return ChildOfObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(FileDriver::class);
@@ -428,24 +433,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return ChildOfObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(FileDriver::class);
@@ -470,24 +476,25 @@ class ExtensionMetadataFactoryTest extends TestCase
         {
             public $isMappedSuperclass = false;
 
-            public function getName() {
+            public function getName(): string {
                 return DoctrineObjectOfTest::class;
             }
-            public function getIdentifier() {}
-            public function getReflectionClass() {}
-            public function isIdentifier(string $fieldName) {}
-            public function hasField(string $fieldName) {}
-            public function hasAssociation(string $fieldName) {}
-            public function isSingleValuedAssociation(string $fieldName) {}
-            public function isCollectionValuedAssociation(string $fieldName) {}
-            public function getFieldNames() {}
-            public function getIdentifierFieldNames() {}
-            public function getAssociationNames() {}
-            public function getTypeOfField(string $fieldName) {}
-            public function getAssociationTargetClass(string $assocName) {}
-            public function isAssociationInverseSide(string $assocName) {}
-            public function getAssociationMappedByTargetField(string $assocName) {}
-            public function getIdentifierValues(object $object) {}
+
+            public function getIdentifier(): array {}
+            public function getReflectionClass(): \ReflectionClass {}
+            public function isIdentifier(string $fieldName): bool {}
+            public function hasField(string $fieldName): bool {}
+            public function hasAssociation(string $fieldName): bool {}
+            public function isSingleValuedAssociation(string $fieldName): bool {}
+            public function isCollectionValuedAssociation(string $fieldName): bool {}
+            public function getFieldNames(): array {}
+            public function getIdentifierFieldNames(): array {}
+            public function getAssociationNames(): array {}
+            public function getTypeOfField(string $fieldName): ?string {}
+            public function getAssociationTargetClass(string $assocName): ?string {}
+            public function isAssociationInverseSide(string $assocName): bool {}
+            public function getAssociationMappedByTargetField(string $assocName): string {}
+            public function getIdentifierValues(object $object): array {}
         };
 
         $this->mappingDriver = $this->createMock(FileDriver::class);

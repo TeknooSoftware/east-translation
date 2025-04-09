@@ -46,7 +46,7 @@ use Teknoo\Recipe\Promise\Promise;
 
 use function array_flip;
 use function get_parent_class;
-use function spl_object_hash;
+use function spl_object_id;
 
 /**
  * The translation listener handles the generation and
@@ -72,7 +72,7 @@ class TranslatableListener implements EventSubscriber
      * List of translations which do not have the foreign
      * key generated yet - MySQL case. These translations
      * will be updated with new keys on postPersist event
-     * @var array<string, array<int, TranslationInterface>>
+     * @var array<int, array<int, TranslationInterface>>
      */
     private array $pendingTranslationInserts = [];
 
@@ -117,7 +117,7 @@ class TranslatableListener implements EventSubscriber
     private array $classMetadata = [];
 
     /**
-     * @var array<string, WrapperInterface>
+     * @var array<int, WrapperInterface>
      */
     private array $wrappers = [];
 
@@ -196,7 +196,7 @@ class TranslatableListener implements EventSubscriber
      */
     private function wrap(TranslatableInterface $translatable, ClassMetadata $metadata): WrapperInterface
     {
-        $oid = spl_object_hash($translatable);
+        $oid = spl_object_id($translatable);
 
         return $this->wrappers[$oid] ??= ($this->wrapperFactory)($translatable, $metadata);
     }
@@ -398,7 +398,7 @@ class TranslatableListener implements EventSubscriber
                 $metaData
             ): void {
                 // check for the availability of the primary key
-                $oid = spl_object_hash($object);
+                $oid = spl_object_id($object);
 
                 $translationMetadata = $this->getClassMetadata($translationClass);
                 $translationReflection = $translationMetadata->getReflectionClass();
@@ -565,7 +565,7 @@ class TranslatableListener implements EventSubscriber
             return $this;
         }
 
-        $oid = spl_object_hash($object);
+        $oid = spl_object_id($object);
 
         if (!isset($this->pendingTranslationInserts[$oid])) {
             return $this;

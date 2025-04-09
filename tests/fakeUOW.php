@@ -22,7 +22,7 @@ if (!class_exists(UnitOfWork::class, false)) {
         {
         }
 
-        public function clearDocumentChangeSet(string $oid)
+        public function clearDocumentChangeSet(int $oid)
         {
         }
 
@@ -30,7 +30,7 @@ if (!class_exists(UnitOfWork::class, false)) {
         {
         }
 
-        public function setOriginalDocumentProperty(string $oid, string $property, $value) : void
+        public function setOriginalDocumentProperty(int $oid, string $property, $value) : void
         {
         }
 

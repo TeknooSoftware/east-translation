@@ -37,7 +37,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\Exception\WrongC
 use Teknoo\East\Translation\Doctrine\Translatable\TranslatableListener;
 use Teknoo\East\Common\Contracts\Object\IdentifiedObjectInterface;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 /**
  * Implementation of adapter dedicated to Doctrine ODM Manager to use it into this library as Object Manager to update
@@ -134,7 +134,7 @@ class ODM implements AdapterInterface
         }
 
         $uow = $this->getUnitOfWork();
-        $uow->clearDocumentChangeSet(spl_object_hash($object));
+        $uow->clearDocumentChangeSet(spl_object_id($object));
         $uow->recomputeSingleDocumentChangeSet($metadata, $object);
 
         return $this;
@@ -167,7 +167,7 @@ class ODM implements AdapterInterface
         return $this;
     }
 
-    public function setObjectPropertyInManager(string $oid, string $property, mixed $value): AdapterInterface
+    public function setObjectPropertyInManager(int $oid, string $property, mixed $value): AdapterInterface
     {
         $this->getUnitOfWork()->setOriginalDocumentProperty($oid, $property, $value);
 
