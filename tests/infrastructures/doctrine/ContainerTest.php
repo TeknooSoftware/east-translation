@@ -31,6 +31,7 @@ use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactoryInterface;
+use Doctrine\ODM\MongoDB\Query\FilterCollection;
 use Doctrine\Persistence\Mapping\AbstractClassMetadataFactory;
 use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
@@ -38,6 +39,7 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use ProxyManager\Proxy\GhostObjectInterface;
+use Teknoo\East\Common\Doctrine\Filter\ODM\SoftDeletableFilter;
 use Teknoo\East\Translation\Contracts\DBSource\TranslationManagerInterface;
 use Teknoo\East\Common\Contracts\DBSource\ManagerInterface;
 use Teknoo\East\Translation\Contracts\Recipe\Step\LoadTranslationsInterface;
@@ -152,6 +154,9 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
         $objectManager = $this->createMock(DocumentManager::class);
+        $configuration = new Configuration();
+        $objectManager->expects($this->any())->method('getConfiguration')->willReturn($configuration);
+        $objectManager->expects($this->any())->method('getFilterCollection')->willReturn(new FilterCollection($objectManager));
         $container->set(ObjectManager::class, $objectManager);
         $container->set('teknoo.east.translation.deferred_loading', true);
 
@@ -170,14 +175,17 @@ class ContainerTest extends TestCase
 
         $driver = $this->createMock(MappingDriver::class);
 
-        $configuration = $this->createMock(Configuration::class);
-        $configuration->expects($this->any())->method('getMetadataDriverImpl')->willReturn($driver);
-
         $mappingFactory = $this->createMock(ClassMetadataFactoryInterface::class);
 
         $objectManager = $this->createMock(DocumentManager::class);
+        $configuration = new Configuration();
+        $configuration->setMetadataDriverImpl($driver);
         $objectManager->expects($this->any())->method('getConfiguration')->willReturn($configuration);
+
         $objectManager->expects($this->any())->method('getMetadataFactory')->willReturn($mappingFactory);
+
+        $filterCollection = new FilterCollection($objectManager);
+        $objectManager->expects($this->any())->method('getFilterCollection')->willReturn($filterCollection);
 
         $container->set(ObjectManager::class, $objectManager);
 

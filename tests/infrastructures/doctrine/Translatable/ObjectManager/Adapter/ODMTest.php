@@ -135,6 +135,36 @@ class ODMTest extends TestCase
         );
     }
 
+    public function testRegisterFilter()
+    {
+        $this->getEastManager()->expects($this->once())->method('registerFilter')->with(\stdClass::class, ['foo']);
+
+        self::assertInstanceOf(
+            ODM::class,
+            $this->build()->registerFilter(\stdClass::class, ['foo'])
+        );
+    }
+
+    public function testEnableFilter()
+    {
+        $this->getEastManager()->expects($this->once())->method('enableFilter')->with(\stdClass::class);
+
+        self::assertInstanceOf(
+            ODM::class,
+            $this->build()->enableFilter(\stdClass::class)
+        );
+    }
+
+    public function testDisableFilter()
+    {
+        $this->getEastManager()->expects($this->once())->method('disableFilter')->with(\stdClass::class);
+
+        self::assertInstanceOf(
+            ODM::class,
+            $this->build()->disableFilter(\stdClass::class)
+        );
+    }
+
     public function testFindClassMetadata()
     {
         $class = 'Foo\Bar';

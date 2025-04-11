@@ -51,7 +51,7 @@
         "ext-json": "*",
         "php-di/php-di": "^7.0.9",
         "teknoo/recipe": "^6.0.3",
-        "teknoo/east-common": "^3.4"
+        "teknoo/east-common": "^3.5"
     },
     "require-dev": {
         "ext-simplexml" : "*",

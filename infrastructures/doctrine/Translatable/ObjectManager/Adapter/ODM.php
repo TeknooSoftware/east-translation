@@ -93,6 +93,27 @@ class ODM implements AdapterInterface
         return $this;
     }
 
+    public function registerFilter(string $className, array $parameters = [], bool $enabling = true): ManagerInterface
+    {
+        $this->eastManager->registerFilter($className, $parameters, $enabling);
+
+        return $this;
+    }
+
+    public function enableFilter(string $className): ManagerInterface
+    {
+        $this->eastManager->enableFilter($className);
+
+        return $this;
+    }
+
+    public function disableFilter(string $className): ManagerInterface
+    {
+        $this->eastManager->disableFilter($className);
+
+        return $this;
+    }
+
     /**
      * @param class-string<object> $class
      */

@@ -1,5 +1,9 @@
 # Teknoo Software - Translation - Change Log
 
+## [1.1.1] - 2025-04-11
+### Stable Release
+- Support of Teknoo East Common 3.5
+
 ## [1.1.0] - 2025-04-09
 ### Stable Release
 - Drop Support of PHP 8.2
