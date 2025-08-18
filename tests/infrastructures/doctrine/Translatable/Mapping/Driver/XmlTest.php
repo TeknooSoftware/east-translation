@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -39,7 +39,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\Mapping\Driver\Xml;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -70,9 +70,9 @@ class XmlTest extends TestCase
         if (!$this->simpleXmlFactory instanceof SimpleXmlFactoryInterface) {
             $this->simpleXmlFactory = $this->createMock(SimpleXmlFactoryInterface::class);
 
-            $this->simpleXmlFactory->expects($this->any())
+            $this->simpleXmlFactory
                 ->method('__invoke')
-                ->willReturnCallback(fn ($file) => new \SimpleXMLElement($file, 0, true));
+                ->willReturnCallback(fn (string $file): \SimpleXMLElement => new \SimpleXMLElement($file, 0, true));
         }
 
         return $this->simpleXmlFactory;
@@ -83,124 +83,103 @@ class XmlTest extends TestCase
         return new Xml($this->getLocator(), $this->getSimpleXmlFactory());
     }
 
-    public function testReadExtendedMetadataFileNotExist()
+    public function testReadExtendedMetadataFileNotExist(): void
     {
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn('');
+        $this->getLocator()->method('findMappingFile')->willReturn('');
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertEmpty($result);
+        $this->assertEmpty($result);
     }
 
-    public function testReadExtendedMetadataFileInvalid()
+    public function testReadExtendedMetadataFileInvalid(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn(
+        $this->getLocator()->method('findMappingFile')->willReturn(
             __DIR__.'/support/invalid.xml'
         );
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertEmpty($result);
+        $this->assertEmpty($result);
     }
 
-    public function testReadExtendedMetadataWrongTranslationClass()
+    public function testReadExtendedMetadataWrongTranslationClass(): void
     {
         $this->expectException(InvalidMappingException::class);
 
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn(
+        $this->getLocator()->method('findMappingFile')->willReturn(
             __DIR__.'/support/wrong-translation.xml'
         );
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertEmpty($result);
+        $this->assertEmpty($result);
     }
 
-    public function testReadExtendedMetadata()
+    public function testReadExtendedMetadata(): void
     {
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn(
+        $this->getLocator()->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid.xml'
         );
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertNotEmpty($result);
+        $this->assertNotEmpty($result);
     }
 
-    public function testReadExtendedMetadataWithUseObjectClass()
+    public function testReadExtendedMetadataWithUseObjectClass(): void
     {
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn(
+        $this->getLocator()->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid-with-object-class.xml'
         );
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertNotEmpty($result);
-        self::assertEquals(
-            'Teknoo\East\Translation\Object\Content',
-            $result['useObjectClass'],
-        );
+        $this->assertNotEmpty($result);
+        $this->assertEquals('Teknoo\East\Translation\Object\Content', $result['useObjectClass']);
     }
 
-    public function testReadExtendedMetadataWithoutField()
+    public function testReadExtendedMetadataWithoutField(): void
     {
         $classMeta = $this->createMock(ClassMetadata::class);
-        $classMeta->expects($this->any())->method('getName')->willReturn('Foo');
+        $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->expects($this->any())->method('findMappingFile')->willReturn(
+        $this->getLocator()->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid-without-field.xml'
         );
 
         $result = [];
 
-        self::assertInstanceOf(
-            Xml::class,
-            $this->build()->readExtendedMetadata($classMeta, $result)
-        );
+        $this->assertInstanceOf(Xml::class, $this->build()->readExtendedMetadata($classMeta, $result));
 
-        self::assertNotEmpty($result);
-        self::assertEmpty($result['fields']);
+        $this->assertNotEmpty($result);
+        $this->assertEmpty($result['fields']);
     }
 }

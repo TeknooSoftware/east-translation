@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software
  * @author      Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @author      Miha Vrhovnik <miha.vrhovnik@gmail.com>
@@ -44,14 +44,14 @@ use function str_replace;
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (https://deloge.io - richard@deloge.io)
  * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  * @author      Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @author      Miha Vrhovnik <miha.vrhovnik@gmail.com>
  */
 class Xml implements DriverInterface
 {
-    private const DOCTRINE_NAMESPACE_URI = 'http://xml.teknoo.it/schemas/doctrine/east-translation';
+    private const string DOCTRINE_NAMESPACE_URI = 'http://xml.teknoo.it/schemas/doctrine/east-translation';
 
     public function __construct(
         private readonly FileLocator $locator,
@@ -61,7 +61,7 @@ class Xml implements DriverInterface
 
     private function getMapping(string $className): ?SimpleXMLElement
     {
-        $file = (string) $this->locator->findMappingFile($className);
+        $file = $this->locator->findMappingFile($className);
         $file = str_replace('.xml', '.translate.xml', $file);
 
         if (!file_exists($file)) {
@@ -84,7 +84,12 @@ class Xml implements DriverInterface
     }
 
     /**
-     * @param array<string, array<int|string, mixed>> $config
+     * @param array{
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
+     *       } $config
      */
     private function inspectElementsForTranslatableFields(
         SimpleXMLElement $xml,
@@ -107,7 +112,12 @@ class Xml implements DriverInterface
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param array{
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
+     *       } $config
      */
     public function readExtendedMetadata(ClassMetadata $meta, array &$config): self
     {

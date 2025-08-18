@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -46,7 +46,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\WrapperInterface;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -72,14 +72,14 @@ class ODMTest extends TestCase
         return new ODM($this->getManager());
     }
 
-    public function testLoadAllTranslations()
+    public function testLoadAllTranslations(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
@@ -88,7 +88,7 @@ class ODMTest extends TestCase
             $this->createMock(TranslationInterface::class)
         );
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -99,66 +99,54 @@ class ODMTest extends TestCase
 
         $called = false;
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->loadAllTranslations(
-                'fr',
-                'fooId',
-                'fooClass',
-                'barClass',
-                function () use (&$called) {
-                    $called = true;
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->loadAllTranslations(
+            'fr',
+            'fooId',
+            'fooClass',
+            'barClass',
+            function () use (&$called): void {
+                $called = true;
+            }
+        ));
 
-        self::assertTrue($called);
+        $this->assertTrue($called);
     }
 
-    public function testLoadAllTranslationsOnDeferred()
+    public function testLoadAllTranslationsOnDeferred(): void
     {
         $this->getManager()
             ->expects($this->never())
             ->method('createQueryBuilder');
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->setDeferred(true)->loadAllTranslations(
-                'fr',
-                'fooId',
-                'fooClass',
-                'barClass',
-                function () use (&$called) {
-                    $called = true;
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->setDeferred(true)->loadAllTranslations(
+            'fr',
+            'fooId',
+            'fooClass',
+            'barClass',
+            function () use (&$called): void {
+                $called = true;
+            }
+        ));
     }
 
-    public function testSetDeferred()
+    public function testSetDeferred(): void
     {
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->setDeferred(true)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->setDeferred(true));
     }
 
-    public function testExecuteAllDeferredLoadingsOnNonDeferred()
+    public function testExecuteAllDeferredLoadingsOnNonDeferred(): void
     {
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->setDeferred(true)->executeAllDeferredLoadings()
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->setDeferred(true)->executeAllDeferredLoadings());
     }
 
-    public function testExecuteAllDeferredLoadingsOnDeferred()
+    public function testExecuteAllDeferredLoadingsOnDeferred(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
@@ -174,7 +162,7 @@ class ODMTest extends TestCase
             ]
         );
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -189,51 +177,42 @@ class ODMTest extends TestCase
 
         $odm->setDeferred(true);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $odm->loadAllTranslations(
-                locale: 'fr',
-                identifier: 'fooId',
-                translationClass: 'fooClass',
-                objectClass: 'barClass',
-                callback: function () use (&$called) {
-                    $called++;
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $odm->loadAllTranslations(
+            locale: 'fr',
+            identifier: 'fooId',
+            translationClass: 'fooClass',
+            objectClass: 'barClass',
+            callback: function () use (&$called): void {
+                ++$called;
+            }
+        ));
 
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $odm->loadAllTranslations(
-                locale: 'fr',
-                identifier: 'barId',
-                translationClass: 'fooClass',
-                objectClass: 'barClass',
-                callback: function () use (&$called) {
-                    $called++;
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $odm->loadAllTranslations(
+            locale: 'fr',
+            identifier: 'barId',
+            translationClass: 'fooClass',
+            objectClass: 'barClass',
+            callback: function () use (&$called): void {
+                ++$called;
+            }
+        ));
 
-        self::assertEquals(0, $called);
+        $this->assertEquals(0, $called);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $odm->executeAllDeferredLoadings(),
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $odm->executeAllDeferredLoadings());
 
-        self::assertEquals(2, $called);
+        $this->assertEquals(2, $called);
     }
 
-    public function testFindTranslationNotFound()
+    public function testFindTranslationNotFound(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
@@ -242,7 +221,7 @@ class ODMTest extends TestCase
             null
         );
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -251,29 +230,26 @@ class ODMTest extends TestCase
             ->method('createQueryBuilder')
             ->willReturn($qBuilder);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->findTranslation(
-                'fr',
-                'fooField',
-                'fooId',
-                'fooClass',
-                'barClass',
-                function () use (&$called) {
-                    self::fail();
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->findTranslation(
+            'fr',
+            'fooField',
+            'fooId',
+            'fooClass',
+            'barClass',
+            function () use (&$called): void {
+                self::fail();
+            }
+        ));
     }
 
-    public function testFindTranslationFound()
+    public function testFindTranslationFound(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
@@ -282,7 +258,7 @@ class ODMTest extends TestCase
             $this->createMock(TranslationInterface::class)
         );
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -293,38 +269,35 @@ class ODMTest extends TestCase
 
         $called = false;
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->findTranslation(
-                'fr',
-                'foo',
-                'fooId',
-                'fooClass',
-                'barClass',
-                function () use (&$called) {
-                    $called = true;
-                }
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->findTranslation(
+            'fr',
+            'foo',
+            'fooId',
+            'fooClass',
+            'barClass',
+            function () use (&$called): void {
+                $called = true;
+            }
+        ));
 
-        self::assertTrue($called);
+        $this->assertTrue($called);
     }
 
-    public function testRemoveAssociatedTranslations()
+    public function testRemoveAssociatedTranslations(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
         $query = $this->createMock(Query::class);
         $query->expects($this->once())->method('execute')->willReturn(true);
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -333,31 +306,28 @@ class ODMTest extends TestCase
             ->method('createQueryBuilder')
             ->willReturn($qBuilder);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->removeAssociatedTranslations('fooId', 'fooClass', 'barClass')
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->removeAssociatedTranslations('fooId', 'fooClass', 'barClass'));
     }
 
-    public function testRemoveOrphansTranslations()
+    public function testRemoveOrphansTranslations(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('notIn')
             ->willReturnSelf();
 
         $query = $this->createMock(Query::class);
         $query->expects($this->once())->method('execute')->willReturn(true);
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -366,28 +336,25 @@ class ODMTest extends TestCase
             ->method('createQueryBuilder')
             ->willReturn($qBuilder);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->removeOrphansTranslations(
-                'fooId',
-                [
-                    'barId',
-                    '5a4c12e03b8a7e000b55c7a2',
-                ],
-                'fooClass',
-                'barClass',
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->removeOrphansTranslations(
+            'fooId',
+            [
+                'barId',
+                '5a4c12e03b8a7e000b55c7a2',
+            ],
+            'fooClass',
+            'barClass',
+        ));
     }
 
-    public function testRemoveOrphansTranslationsWithoutId()
+    public function testRemoveOrphansTranslationsWithoutId(): void
     {
         $qBuilder = $this->createMock(Builder::class);
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('field')
             ->willReturnSelf();
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('equals')
             ->willReturnSelf();
 
@@ -398,7 +365,7 @@ class ODMTest extends TestCase
         $query = $this->createMock(Query::class);
         $query->expects($this->once())->method('execute')->willReturn(true);
 
-        $qBuilder->expects($this->any())
+        $qBuilder
             ->method('getQuery')
             ->willReturn($query);
 
@@ -407,76 +374,67 @@ class ODMTest extends TestCase
             ->method('createQueryBuilder')
             ->willReturn($qBuilder);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->removeOrphansTranslations(
-                'fooId',
-                [],
-                'fooClass',
-                'barClass',
-            )
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->removeOrphansTranslations(
+            'fooId',
+            [],
+            'fooClass',
+            'barClass',
+        ));
     }
 
-    public function testPersistTranslationRecordOnInsertNoneIdGeneration()
+    public function testPersistTranslationRecordOnInsertNoneIdGeneration(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $translation->expects($this->any())->method('getIdentifier')->willReturn('');
+        $translation->method('getIdentifier')->willReturn('');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldNames')->willReturn(['foo']);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
-        $meta->expects($this->any())->method('getFieldValue')->willReturn('bar');
+        $meta->method('getFieldNames')->willReturn(['foo']);
+        $meta->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
+        $meta->method('getFieldValue')->willReturn('bar');
         $meta->generatorType = ClassMetadata::GENERATOR_TYPE_NONE;
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->once())->method('insertOne');
         $collection->expects($this->never())->method('updateOne');
 
-        $this->getManager()->expects($this->any())->method('getClassMetadata')->willReturn($meta);
-        $this->getManager()->expects($this->any())->method('getDocumentCollection')->willReturn($collection);
+        $this->getManager()->method('getClassMetadata')->willReturn($meta);
+        $this->getManager()->method('getDocumentCollection')->willReturn($collection);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->persistTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->persistTranslationRecord($translation));
     }
 
-    public function testPersistTranslationRecordOnInsertWithoutIdGenerator()
+    public function testPersistTranslationRecordOnInsertWithoutIdGenerator(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $translation = $this->createMock(TranslationInterface::class);
-        $translation->expects($this->any())->method('getIdentifier')->willReturn('');
+        $translation->method('getIdentifier')->willReturn('');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldNames')->willReturn(['foo']);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
-        $meta->expects($this->any())->method('getFieldValue')->willReturn('bar');
+        $meta->method('getFieldNames')->willReturn(['foo']);
+        $meta->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
+        $meta->method('getFieldValue')->willReturn('bar');
         $meta->generatorType = ClassMetadata::GENERATOR_TYPE_UUID;
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->never())->method('insertOne');
         $collection->expects($this->never())->method('updateOne');
 
-        $this->getManager()->expects($this->any())->method('getClassMetadata')->willReturn($meta);
-        $this->getManager()->expects($this->any())->method('getDocumentCollection')->willReturn($collection);
+        $this->getManager()->method('getClassMetadata')->willReturn($meta);
+        $this->getManager()->method('getDocumentCollection')->willReturn($collection);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->persistTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->persistTranslationRecord($translation));
     }
 
-    public function testPersistTranslationRecordOnInsertWithIdGenerator()
+    public function testPersistTranslationRecordOnInsertWithIdGenerator(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $translation->expects($this->any())->method('getIdentifier')->willReturn('');
+        $translation->method('getIdentifier')->willReturn('');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldNames')->willReturn(['foo']);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
-        $meta->expects($this->any())->method('getFieldValue')->willReturn('bar');
+        $meta->method('getFieldNames')->willReturn(['foo']);
+        $meta->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
+        $meta->method('getFieldValue')->willReturn('bar');
         $meta->generatorType = ClassMetadata::GENERATOR_TYPE_UUID;
         $meta->idGenerator = $this->createMock(IdGenerator::class);
 
@@ -484,68 +442,59 @@ class ODMTest extends TestCase
         $collection->expects($this->once())->method('insertOne');
         $collection->expects($this->never())->method('updateOne');
 
-        $this->getManager()->expects($this->any())->method('getClassMetadata')->willReturn($meta);
-        $this->getManager()->expects($this->any())->method('getDocumentCollection')->willReturn($collection);
+        $this->getManager()->method('getClassMetadata')->willReturn($meta);
+        $this->getManager()->method('getDocumentCollection')->willReturn($collection);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->persistTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->persistTranslationRecord($translation));
     }
 
-    public function testPersistTranslationRecordOnUpdateWithUUID()
+    public function testPersistTranslationRecordOnUpdateWithUUID(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $translation->expects($this->any())->method('getIdentifier')->willReturn('foo');
+        $translation->method('getIdentifier')->willReturn('foo');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldNames')->willReturn(['id', 'foo']);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturnOnConsecutiveCalls(
+        $meta->method('getFieldNames')->willReturn(['id', 'foo']);
+        $meta->method('getFieldMapping')->willReturnOnConsecutiveCalls(
             ['id' => true, 'fieldName' => '_id'],
             ['fieldName' => 'foo']
         );
-        $meta->expects($this->any())->method('getFieldValue')->willReturn('bar');
+        $meta->method('getFieldValue')->willReturn('bar');
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->never())->method('insertOne');
         $collection->expects($this->once())->method('updateOne');
 
-        $this->getManager()->expects($this->any())->method('getClassMetadata')->willReturn($meta);
-        $this->getManager()->expects($this->any())->method('getDocumentCollection')->willReturn($collection);
+        $this->getManager()->method('getClassMetadata')->willReturn($meta);
+        $this->getManager()->method('getDocumentCollection')->willReturn($collection);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->persistTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->persistTranslationRecord($translation));
     }
 
-    public function testPersistTranslationRecordOnUpdateWithObjectId()
+    public function testPersistTranslationRecordOnUpdateWithObjectId(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $translation->expects($this->any())->method('getIdentifier')->willReturn('5a3d3e2ef7f98a00110ab582');
+        $translation->method('getIdentifier')->willReturn('5a3d3e2ef7f98a00110ab582');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldNames')->willReturn(['id', 'foo']);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturnOnConsecutiveCalls(
+        $meta->method('getFieldNames')->willReturn(['id', 'foo']);
+        $meta->method('getFieldMapping')->willReturnOnConsecutiveCalls(
             ['id' => true, 'fieldName' => '_id'],
             ['fieldName' => 'foo']
         );
-        $meta->expects($this->any())->method('getFieldValue')->willReturn('bar');
+        $meta->method('getFieldValue')->willReturn('bar');
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->never())->method('insertOne');
         $collection->expects($this->once())->method('updateOne');
 
-        $this->getManager()->expects($this->any())->method('getClassMetadata')->willReturn($meta);
-        $this->getManager()->expects($this->any())->method('getDocumentCollection')->willReturn($collection);
+        $this->getManager()->method('getClassMetadata')->willReturn($meta);
+        $this->getManager()->method('getDocumentCollection')->willReturn($collection);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->persistTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->persistTranslationRecord($translation));
     }
 
-    public function testUpdateTranslationRecordWithGenericClassMetaData()
+    public function testUpdateTranslationRecordWithGenericClassMetaData(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -559,25 +508,22 @@ class ODMTest extends TestCase
         $this->build()->updateTranslationRecord($wrapper, $meta, 'foo', $translation);
     }
 
-    public function testUpdateTranslationRecord()
+    public function testUpdateTranslationRecord(): void
     {
         $wrapper = $this->createMock(WrapperInterface::class);
         $wrapper->expects($this->once())->method('updateTranslationRecord');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturn([
+        $meta->method('getFieldMapping')->willReturn([
             'type' => Type::STRING
         ]);
 
         $translation = $this->createMock(TranslationInterface::class);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->updateTranslationRecord($wrapper, $meta, 'foo', $translation)
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->updateTranslationRecord($wrapper, $meta, 'foo', $translation));
     }
 
-    public function testSetTranslatedValueWithGenericClassMetaData()
+    public function testSetTranslatedValueWithGenericClassMetaData(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -589,19 +535,16 @@ class ODMTest extends TestCase
         $this->build()->setTranslatedValue($wrapper, $meta, 'foo', 'bar');
     }
 
-    public function testSetTranslatedValue()
+    public function testSetTranslatedValue(): void
     {
         $wrapper = $this->createMock(WrapperInterface::class);
         $wrapper->expects($this->once())->method('setPropertyValue');
 
         $meta = $this->createMock(ClassMetadata::class);
-        $meta->expects($this->any())->method('getFieldMapping')->willReturn([
+        $meta->method('getFieldMapping')->willReturn([
             'type' => Type::STRING
         ]);
 
-        self::assertInstanceOf(
-            AdapterInterface::class,
-            $this->build()->setTranslatedValue($wrapper, $meta, 'foo', 'bar')
-        );
+        $this->assertInstanceOf(AdapterInterface::class, $this->build()->setTranslatedValue($wrapper, $meta, 'foo', 'bar'));
     }
 }

@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -43,7 +43,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\TranslatableListener;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -83,89 +83,65 @@ class ODMTest extends TestCase
         return new ODM($this->getEastManager(), $this->getDoctrineManager());
     }
 
-    public function testOpenBatch()
+    public function testOpenBatch(): void
     {
         $this->getEastManager()->expects($this->once())->method('openBatch');
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->openBatch()
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->openBatch());
     }
 
-    public function testCloseBatch()
+    public function testCloseBatch(): void
     {
         $this->getEastManager()->expects($this->once())->method('closeBatch');
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->closeBatch()
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->closeBatch());
     }
 
-    public function testPersist()
+    public function testPersist(): void
     {
         $object = $this->createMock(ObjectInterface::class);
         $this->getEastManager()->expects($this->once())->method('persist')->with($object);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->persist($object)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->persist($object));
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $object = $this->createMock(ObjectInterface::class);
         $this->getEastManager()->expects($this->once())->method('remove')->with($object);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->remove($object)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->remove($object));
     }
 
-    public function testFlush()
+    public function testFlush(): void
     {
         $this->getEastManager()->expects($this->once())->method('flush')->with();
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->flush()
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->flush());
     }
 
-    public function testRegisterFilter()
+    public function testRegisterFilter(): void
     {
         $this->getEastManager()->expects($this->once())->method('registerFilter')->with(\stdClass::class, ['foo']);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->registerFilter(\stdClass::class, ['foo'])
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->registerFilter(\stdClass::class, ['foo']));
     }
 
-    public function testEnableFilter()
+    public function testEnableFilter(): void
     {
         $this->getEastManager()->expects($this->once())->method('enableFilter')->with(\stdClass::class);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->enableFilter(\stdClass::class)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->enableFilter(\stdClass::class));
     }
 
-    public function testDisableFilter()
+    public function testDisableFilter(): void
     {
         $this->getEastManager()->expects($this->once())->method('disableFilter')->with(\stdClass::class);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->disableFilter(\stdClass::class)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->disableFilter(\stdClass::class));
     }
 
-    public function testFindClassMetadata()
+    public function testFindClassMetadata(): void
     {
         $class = 'Foo\Bar';
         $meta = $this->createMock(ClassMetadata::class);
@@ -179,35 +155,28 @@ class ODMTest extends TestCase
         $listener = $this->createMock(TranslatableListener::class);
         $listener->expects($this->once())->method('registerClassMetadata')->with($class, $meta);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->findClassMetadata($class, $listener)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->findClassMetadata($class, $listener));
     }
 
-    public function testIfObjectHasChangeSetEmpty()
+    public function testIfObjectHasChangeSetEmpty(): void
     {
         $object = $this->createMock(TranslatableInterface::class);
 
         $uow = $this->createMock(UnitOfWork::class);
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $neverCallback = function () {
+        $neverCallback = function (): void {
             self::fail('must not be called');
         };
 
-        $uow->expects($this->any())->method('getDocumentChangeSet')->willReturn([]);
+        $uow->method('getDocumentChangeSet')->willReturn([]);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->ifObjectHasChangeSet($object, $neverCallback)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->ifObjectHasChangeSet($object, $neverCallback));
     }
 
-    public function testIfObjectHasChangeSet()
+    public function testIfObjectHasChangeSet(): void
     {
         $object = $this->createMock(TranslatableInterface::class);
 
@@ -215,25 +184,21 @@ class ODMTest extends TestCase
 
         $uow = $this->createMock(UnitOfWork::class);
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $uow->expects($this->any())->method('getDocumentChangeSet')->willReturn($changset);
+        $uow->method('getDocumentChangeSet')->willReturn($changset);
 
         $called = false;
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->ifObjectHasChangeSet($object, function () use (&$called) {
-                $called = true;
-            })
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->ifObjectHasChangeSet($object, function () use (&$called): void {
+            $called = true;
+        }));
 
-        self::assertTrue($called);
+        $this->assertTrue($called);
     }
 
-    public function testRecomputeSingleObjectChangeSetWithGenericClassMetaData()
+    public function testRecomputeSingleObjectChangeSetWithGenericClassMetaData(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -245,14 +210,13 @@ class ODMTest extends TestCase
         $uow->expects($this->never())->method('recomputeSingleDocumentChangeSet');
 
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
         $this->build()->recomputeSingleObjectChangeSet($meta, $object);
     }
 
-    public function testRecomputeSingleObjectChangeSet()
+    public function testRecomputeSingleObjectChangeSet(): void
     {
         $meta = $this->createMock(ClassMetadata::class);
         $object = $this->createMock(TranslatableInterface::class);
@@ -262,101 +226,81 @@ class ODMTest extends TestCase
         $uow->expects($this->once())->method('recomputeSingleDocumentChangeSet');
 
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->recomputeSingleObjectChangeSet($meta, $object)
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->recomputeSingleObjectChangeSet($meta, $object));
     }
 
-    public function testForeachScheduledObjectInsertions()
+    public function testForeachScheduledObjectInsertions(): void
     {
         $list = [new \stdClass(), new \stdClass()];
 
         $uow = $this->createMock(UnitOfWork::class);
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $uow->expects($this->any())->method('getScheduledDocumentInsertions')->willReturn($list);
+        $uow->method('getScheduledDocumentInsertions')->willReturn($list);
 
         $counter = 0;
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->foreachScheduledObjectInsertions(function () use (&$counter) {
-                $counter++;
-            })
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->foreachScheduledObjectInsertions(function () use (&$counter): void {
+            ++$counter;
+        }));
 
-        self::assertEquals(2, $counter);
+        $this->assertEquals(2, $counter);
     }
 
-    public function testForeachScheduledObjectUpdates()
+    public function testForeachScheduledObjectUpdates(): void
     {
         $list = [new \stdClass(), new \stdClass()];
 
         $uow = $this->createMock(UnitOfWork::class);
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $uow->expects($this->any())->method('getScheduledDocumentUpdates')->willReturn($list);
+        $uow->method('getScheduledDocumentUpdates')->willReturn($list);
 
         $counter = 0;
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->foreachScheduledObjectUpdates(function () use (&$counter) {
-                $counter++;
-            })
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->foreachScheduledObjectUpdates(function () use (&$counter): void {
+            ++$counter;
+        }));
 
-        self::assertEquals(2, $counter);
+        $this->assertEquals(2, $counter);
     }
 
-    public function testForeachScheduledObjectDeletions()
+    public function testForeachScheduledObjectDeletions(): void
     {
         $list = [new \stdClass(), new \stdClass()];
 
         $uow = $this->createMock(UnitOfWork::class);
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        $uow->expects($this->any())->method('getScheduledDocumentDeletions')->willReturn($list);
+        $uow->method('getScheduledDocumentDeletions')->willReturn($list);
 
         $counter = 0;
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->foreachScheduledObjectDeletions(function () use (&$counter) {
-                $counter++;
-            })
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->foreachScheduledObjectDeletions(function () use (&$counter): void {
+            ++$counter;
+        }));
 
-        self::assertEquals(2, $counter);
+        $this->assertEquals(2, $counter);
     }
 
-    public function testSetObjectPropertyInManager()
+    public function testSetObjectPropertyInManager(): void
     {
         $uow = $this->createMock(UnitOfWork::class);
         $uow->expects($this->once())->method('setOriginalDocumentProperty');
 
         $this->getDoctrineManager()
-            ->expects($this->any())
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
-        self::assertInstanceOf(
-            ODM::class,
-            $this->build()->setObjectPropertyInManager(123, 'bar', 'hello')
-        );
+        $this->assertInstanceOf(ODM::class, $this->build()->setObjectPropertyInManager(123, 'bar', 'hello'));
     }
 }

@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -35,7 +35,7 @@ use Teknoo\East\Translation\Doctrine\Object\Translation;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -47,7 +47,7 @@ class TranslationTest extends TestCase
      *
      * @return object
      */
-    protected function generateObjectPopulated($data = array())
+    protected function generateObjectPopulated($data = [])
     {
         //Build a new instance of this object
         $ObjectObject = $this->buildObject();
@@ -59,11 +59,9 @@ class TranslationTest extends TestCase
             foreach ($data as $fieldName => $value) {
                 if ($reflectionClassObject->hasProperty($fieldName)) {
                     $propertyObject = $reflectionClassObject->getProperty($fieldName);
-                    $propertyObject->setAccessible(true);
                     $propertyObject->setValue($ObjectObject, $value);
                 } elseif ($reflectionClassObject->getParentClass()->hasProperty($fieldName)) {
                     $propertyObject = $reflectionClassObject->getParentClass()->getProperty($fieldName);
-                    $propertyObject->setAccessible(true);
                     $propertyObject->setValue($ObjectObject, $value);
                 }
             }
@@ -77,48 +75,33 @@ class TranslationTest extends TestCase
         return new Translation();
     }
 
-    public function testGetIdentifier()
+    public function testGetIdentifier(): void
     {
-        self::assertIsString($this->generateObjectPopulated(['id' => 'foo'])->getIdentifier());
+        $this->assertIsString($this->generateObjectPopulated(['id' => 'foo'])->getIdentifier());
     }
 
-    public function testSetLocale()
+    public function testSetLocale(): void
     {
-        self::assertInstanceOf(
-            Translation::class,
-            $this->buildObject()->setLocale('foo')
-        );
+        $this->assertInstanceOf(Translation::class, $this->buildObject()->setLocale('foo'));
     }
 
-    public function testSetField()
+    public function testSetField(): void
     {
-        self::assertInstanceOf(
-            Translation::class,
-            $this->buildObject()->setField('foo')
-        );
+        $this->assertInstanceOf(Translation::class, $this->buildObject()->setField('foo'));
     }
 
-    public function testSetObjectClass()
+    public function testSetObjectClass(): void
     {
-        self::assertInstanceOf(
-            Translation::class,
-            $this->buildObject()->setObjectClass('foo')
-        );
+        $this->assertInstanceOf(Translation::class, $this->buildObject()->setObjectClass('foo'));
     }
 
-    public function testSetForeignKey()
+    public function testSetForeignKey(): void
     {
-        self::assertInstanceOf(
-            Translation::class,
-            $this->buildObject()->setForeignKey('foo')
-        );
+        $this->assertInstanceOf(Translation::class, $this->buildObject()->setForeignKey('foo'));
     }
 
-    public function testSetContent()
+    public function testSetContent(): void
     {
-        self::assertInstanceOf(
-            Translation::class,
-            $this->buildObject()->setContent('foo')
-        );
+        $this->assertInstanceOf(Translation::class, $this->buildObject()->setContent('foo'));
     }
 }

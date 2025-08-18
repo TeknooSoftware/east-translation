@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -61,16 +61,15 @@ use Teknoo\Tests\East\Translation\Support\Object\ObjectOfTest;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 class ContainerTest extends TestCase
 {
     /**
-     * @return Container
      * @throws \Exception
      */
-    protected function buildContainer() : Container
+    protected function buildContainer(): Container
     {
         $containerDefinition = new ContainerBuilder();
         $containerDefinition->addDefinitions(
@@ -81,45 +80,16 @@ class ContainerTest extends TestCase
         return $containerDefinition->build();
     }
 
-    public function testManager()
+    public function testManager(): void
     {
         $container = $this->buildContainer();
         $objectManager = $this->createMock(ObjectManager::class);
 
         $container->set(ObjectManager::class, $objectManager);
-        self::assertInstanceOf(ManagerInterface::class, $container->get(ManagerInterface::class));
+        $this->assertInstanceOf(ManagerInterface::class, $container->get(ManagerInterface::class));
     }
 
-    private function generateTestForRepository(string $objectClass, string $repositoryClass, string $repositoryType)
-    {
-        $container = $this->buildContainer();
-        $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->any())->method('getRepository')->with($objectClass)->willReturn(
-            $this->createMock($repositoryType)
-        );
-
-        $container->set(ObjectManager::class, $objectManager);
-        $repository = $container->get($repositoryClass);
-
-        self::assertInstanceOf(
-            $repositoryClass,
-            $repository
-        );
-    }
-
-    private function generateTestForRepositoryWithUnsupportedRepository(string $objectClass, string $repositoryClass)
-    {
-        $container = $this->buildContainer();
-        $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->any())->method('getRepository')->with($objectClass)->willReturn(
-            $this->createMock(\DateTime::class)
-        );
-
-        $container->set(ObjectManager::class, $objectManager);
-        $container->get($repositoryClass);
-    }
-
-    public function testLocaleMiddlewareWithDocumentManager()
+    public function testLocaleMiddlewareWithDocumentManager(): void
     {
         $container = $this->buildContainer();
         $translatableListener = $this->createMock(TranslatableListener::class);
@@ -130,13 +100,10 @@ class ContainerTest extends TestCase
         $container->set(TranslatableListener::class, $translatableListener);
         $loader = $container->get(LocaleMiddleware::class);
 
-        self::assertInstanceOf(
-            LocaleMiddleware::class,
-            $loader
-        );
+        $this->assertInstanceOf(LocaleMiddleware::class, $loader);
     }
 
-    public function testLocaleMiddlewareWithoutDocumentManager()
+    public function testLocaleMiddlewareWithoutDocumentManager(): void
     {
         $container = $this->buildContainer();
         $translatableListener = $this->createMock(TranslatableListener::class);
@@ -144,32 +111,26 @@ class ContainerTest extends TestCase
         $container->set(TranslatableListener::class, $translatableListener);
         $loader = $container->get(LocaleMiddleware::class);
 
-        self::assertInstanceOf(
-            LocaleMiddleware::class,
-            $loader
-        );
+        $this->assertInstanceOf(LocaleMiddleware::class, $loader);
     }
 
-    public function testTranslationListenerWithDocumentManagerWithoutMappingDriver()
+    public function testTranslationListenerWithDocumentManagerWithoutMappingDriver(): void
     {
         $container = $this->buildContainer();
         $objectManager = $this->createMock(DocumentManager::class);
         $configuration = new Configuration();
-        $objectManager->expects($this->any())->method('getConfiguration')->willReturn($configuration);
-        $objectManager->expects($this->any())->method('getFilterCollection')->willReturn(new FilterCollection($objectManager));
+        $objectManager->method('getConfiguration')->willReturn($configuration);
+        $objectManager->method('getFilterCollection')->willReturn(new FilterCollection($objectManager));
         $container->set(ObjectManager::class, $objectManager);
         $container->set('teknoo.east.translation.deferred_loading', true);
 
         $this->expectException(\RuntimeException::class);
         $listener = $container->get(TranslatableListener::class);
 
-        self::assertInstanceOf(
-            TranslatableListener::class,
-            $listener
-        );
+        $this->assertInstanceOf(TranslatableListener::class, $listener);
     }
 
-    public function testTranslationListenerWithDocumentManager()
+    public function testTranslationListenerWithDocumentManager(): void
     {
         $container = $this->buildContainer();
 
@@ -180,32 +141,24 @@ class ContainerTest extends TestCase
         $objectManager = $this->createMock(DocumentManager::class);
         $configuration = new Configuration();
         $configuration->setMetadataDriverImpl($driver);
-        $objectManager->expects($this->any())->method('getConfiguration')->willReturn($configuration);
+        $objectManager->method('getConfiguration')->willReturn($configuration);
 
-        $objectManager->expects($this->any())->method('getMetadataFactory')->willReturn($mappingFactory);
+        $objectManager->method('getMetadataFactory')->willReturn($mappingFactory);
 
         $filterCollection = new FilterCollection($objectManager);
-        $objectManager->expects($this->any())->method('getFilterCollection')->willReturn($filterCollection);
+        $objectManager->method('getFilterCollection')->willReturn($filterCollection);
 
         $container->set(ObjectManager::class, $objectManager);
 
         $listener = $container->get(TranslatableListener::class);
 
-        self::assertInstanceOf(
-            TranslatableListener::class,
-            $listener
-        );
+        $this->assertInstanceOf(TranslatableListener::class, $listener);
 
         $rf = new \ReflectionObject($listener);
         $rpw = $rf->getProperty('wrapperFactory');
-
-        $rpw->setAccessible(true);
         $closure = $rpw->getValue($listener);
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $closure(new ObjectOfTest(), $this->createMock(ClassMetadata::class))
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $closure(new ObjectOfTest(), $this->createMock(ClassMetadata::class)));
 
         $error = false;
         try {
@@ -213,38 +166,30 @@ class ContainerTest extends TestCase
         } catch (\RuntimeException $error) {
             $error = true;
         }
-        self::assertTrue($error);
+
+        $this->assertTrue($error);
 
         $rpe = $rf->getProperty('extensionMetadataFactory');
-        $rpe->setAccessible(true);
         $extensionMetadataFactory = $rpe->getValue($listener);
 
         $rf = new \ReflectionObject($extensionMetadataFactory);
 
         $rpe = $rf->getProperty('driverFactory');
-        $rpe->setAccessible(true);
         $driverFactory = $rpe->getValue($extensionMetadataFactory);
 
         $driver = $driverFactory($this->createMock(FileLocator::class));
-        self::assertInstanceOf(
-            DriverInterface::class,
-            $driver
-        );
+        $this->assertInstanceOf(DriverInterface::class, $driver);
 
         $rf = new \ReflectionObject($driver);
 
         $rps = $rf->getProperty('simpleXmlFactory');
-        $rps->setAccessible(true);
         $simpleXmlFactory = $rps->getValue($driver);
 
         $simpleXml = $simpleXmlFactory(__DIR__.'/Translatable/Mapping/Driver/support/valid.translate.xml');
-        self::assertInstanceOf(
-            \SimpleXMLElement::class,
-            $simpleXml
-        );
+        $this->assertInstanceOf(\SimpleXMLElement::class, $simpleXml);
     }
 
-    public function testTranslationListenerWithWithoutDocumentManager()
+    public function testTranslationListenerWithWithoutDocumentManager(): void
     {
         $container = $this->buildContainer();
 
@@ -254,65 +199,52 @@ class ContainerTest extends TestCase
         $container->get(TranslatableListener::class);
     }
 
-    public function testTranslationManager()
+    public function testTranslationManager(): void
     {
         $container = $this->buildContainer();
 
         $objectManager = $this->createMock(DocumentManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
-        self::assertInstanceOf(
-            TranslationManager::class,
-            $container->get(TranslationManager::class)
-        );
+        $this->assertInstanceOf(TranslationManager::class, $container->get(TranslationManager::class));
     }
 
-    public function testTranslationManagerInterface()
+    public function testTranslationManagerInterface(): void
     {
         $container = $this->buildContainer();
 
         $objectManager = $this->createMock(DocumentManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
-        self::assertInstanceOf(
-            TranslationManager::class,
-            $container->get(TranslationManagerInterface::class)
-        );
+        $this->assertInstanceOf(TranslationManager::class, $container->get(TranslationManagerInterface::class));
     }
 
-    public function testTranslationManagerNonOdm()
+    public function testTranslationManagerNonOdm(): void
     {
         $container = $this->buildContainer();
 
         $objectManager = $this->createMock(ObjectManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
-        self::assertNull(
-            $container->get(TranslationManager::class)
-        );
+        $this->assertNull($container->get(TranslationManager::class));
     }
 
-    public function testTranslationManagerInterfaceNonOdm()
+    public function testTranslationManagerInterfaceNonOdm(): void
     {
         $container = $this->buildContainer();
 
         $objectManager = $this->createMock(ObjectManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
-        self::assertNull(
-            $container->get(TranslationManager::class)
-        );
+        $this->assertNull($container->get(TranslationManager::class));
     }
 
-    public function testOriginalRecipeInterfaceStatic()
+    public function testOriginalRecipeInterfaceStatic(): void
     {
         $container = $this->buildContainer();
         $container->set(OriginalRecipeInterface::class . ':Static', $this->createMock(OriginalRecipeInterface::class));
         $container->set(LoadTranslationsInterface::class, $this->createMock(LoadTranslationsInterface::class));
 
-        self::assertInstanceOf(
-            OriginalRecipeInterface::class,
-            $container->get(OriginalRecipeInterface::class . ':Static')
-        );
+        $this->assertInstanceOf(OriginalRecipeInterface::class, $container->get(OriginalRecipeInterface::class . ':Static'));
     }
 }

@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -35,7 +35,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\Mapping\Configuration;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -53,126 +53,81 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testGetKey()
+    public function testGetKey(): void
     {
-        self::assertEquals(
-            'fooBar',
-            $this->build()->getKey(),
-        );
+        $this->assertEquals('fooBar', $this->build()->getKey());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
-        self::assertEquals(
+        $this->assertEquals([
+            'foo' => 'bar',
+        ], $this->build()->get());
+    }
+
+    public function testIsHit(): void
+    {
+        $this->assertEquals(false, $this->build()->isHit());
+        $this->assertEquals(true, new Configuration(
+            'fooBar',
             [
                 'foo' => 'bar',
             ],
-            $this->build()->get(),
-        );
+            true
+        )->isHit());
     }
 
-    public function testIsHit()
-    {
-        self::assertEquals(
-            false,
-            $this->build()->isHit(),
-        );
-        self::assertEquals(
-            true,
-            (new Configuration(
-                'fooBar',
-                [
-                    'foo' => 'bar',
-                ],
-                true
-            ))->isHit(),
-        );
-    }
-
-    public function testSet()
+    public function testSet(): void
     {
         $configuration = $this->build();
 
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->set(
-                [
-                    'bar' => 'foo',
-                ],
-            ),
-        );
-
-        self::assertEquals(
+        $this->assertInstanceOf(Configuration::class, $configuration->set(
             [
                 'bar' => 'foo',
             ],
-            $configuration->get(),
-        );
+        ));
+
+        $this->assertEquals([
+            'bar' => 'foo',
+        ], $configuration->get());
     }
 
-    public function testExpiresAt()
+    public function testExpiresAt(): void
     {
         $configuration = $this->build();
-        self::assertNull($configuration->getExpiry());
+        $this->assertNull($configuration->getExpiry());
 
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->expiresAt(
-                $date = new \DateTime('2022-06-27')
-            ),
-        );
+        $this->assertInstanceOf(Configuration::class, $configuration->expiresAt(
+            $date = new \DateTime('2022-06-27')
+        ));
 
-        self::assertIsFloat(
-            $configuration->getExpiry()
-        );
+        $this->assertIsFloat($configuration->getExpiry());
 
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->expiresAt(null),
-        );
+        $this->assertInstanceOf(Configuration::class, $configuration->expiresAt(null));
 
-        self::assertNull($configuration->getExpiry());
+        $this->assertNull($configuration->getExpiry());
     }
 
-    public function testExpiresAfter()
+    public function testExpiresAfter(): void
     {
         $configuration = $this->build();
-        self::assertNull($configuration->getExpiry());
+        $this->assertNull($configuration->getExpiry());
 
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->expiresAfter(
-                $intervale = new \DateInterval('P1W2D')
-            ),
-        );
+        $this->assertInstanceOf(Configuration::class, $configuration->expiresAfter(
+            $intervale = new \DateInterval('P1W2D')
+        ));
 
-        self::assertIsFloat(
-            $configuration->getExpiry()
-        );
+        $this->assertIsFloat($configuration->getExpiry());
 
-        self::assertGreaterThan(
-            (float) (new \DateTime('now'))->format('U.u'),
-            $configuration->getExpiry()
-        );
+        $this->assertGreaterThan((float) new \DateTime('now')->format('U.u'), $configuration->getExpiry());
 
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->expiresAfter(null),
-        );
+        $this->assertInstanceOf(Configuration::class, $configuration->expiresAfter(null));
 
-        self::assertNull($configuration->getExpiry());
-        self::assertInstanceOf(
-            Configuration::class,
-            $configuration->expiresAfter(1234),
-        );
+        $this->assertNull($configuration->getExpiry());
+        $this->assertInstanceOf(Configuration::class, $configuration->expiresAfter(1234));
 
-        self::assertIsFloat(
-            $configuration->getExpiry()
-        );
+        $this->assertIsFloat($configuration->getExpiry());
 
-        self::assertGreaterThan(
-            (float) (new \DateTime('now'))->format('U.u'),
-            $configuration->getExpiry()
-        );
+        $this->assertGreaterThan((float) new \DateTime('now')->format('U.u'), $configuration->getExpiry());
     }
 }

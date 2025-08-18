@@ -1,4 +1,19 @@
-# Teknoo Software - Translation - Change Log
+ # Teknoo Software - Translation - Change Log
+
+## [2.0.0] - 2025-08-18
+### Stable Release
+- Drop support of PHP 8.3
+- Requires PHP 8.4
+- Support Symfony 6.4.24+ or 7.3+
+- Update to Teknoo States 7
+- Update to Teknoo Recipe 7
+- Update to Teknoo East Foundation 7
+- Update to Teknoo East Common 4
+- Update to PHPStan 2
+- Remove deprecated feature `Cookbook`, use `Plan` instead
+- Remove deprecated `DatesService`, use `Foundation\DatesService` instead
+- Fix some bugs and QA issues
+- Switch license from MIT to 3-Clause BSD
 
 ## [1.1.1] - 2025-04-11
 ### Stable Release
