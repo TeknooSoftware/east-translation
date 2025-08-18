@@ -72,8 +72,7 @@
         "doctrine/common": "^3.5",
         "doctrine/mongodb-odm": "^2.11.3",
         "doctrine/mongodb-odm-bundle": "^5.3.1",
-        "doctrine/persistence": "^4",
-        "rector/rector": "*"
+        "doctrine/persistence": "^4"
     },
     "conflict": {
         "doctrine/persistence": "<3.0"
