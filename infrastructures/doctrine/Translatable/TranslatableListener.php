@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  * @author      Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  */
@@ -62,7 +62,7 @@ use function spl_object_id;
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (https://deloge.io - richard@deloge.io)
  * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  * @author      Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  */
@@ -212,10 +212,10 @@ class TranslatableListener implements EventSubscriber
     /**
      * @param ClassMetadata<IdentifiedObjectInterface> $metadata
      * @param array{
-     *        useObjectClass: string,
-     *        translationClass: string,
-     *        fields: array<int, string>|null,
-     *        fallback: array<string, string>
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
      *      } $config
      */
     public function injectConfiguration(ClassMetadata $metadata, array $config): self
@@ -300,6 +300,7 @@ class TranslatableListener implements EventSubscriber
             $translationClass,
             $config['useObjectClass'],
             function (iterable $result) use ($wrapper, $config, $metaData): void {
+                /** @var iterable<array{field: string, content: string|null}> $result */
                 if (empty($result)) {
                     return;
                 }
@@ -397,6 +398,8 @@ class TranslatableListener implements EventSubscriber
                 &$translationClass,
                 $metaData
             ): void {
+                /** @var array<string, array<int, mixed>> $changeSet */
+
                 // check for the availability of the primary key
                 $oid = spl_object_id($object);
 
@@ -493,7 +496,7 @@ class TranslatableListener implements EventSubscriber
     {
         $this->objectsToTranslate = [];
 
-        $handling = function ($object, $isInsert): void {
+        $handling = function ($object, bool $isInsert): void {
             if (!$object instanceof TranslatableInterface) {
                 return;
             }

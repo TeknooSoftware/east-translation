@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -37,7 +37,7 @@ use function microtime;
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (https://deloge.io - richard@deloge.io)
  * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 class Configuration implements CacheItemInterface
@@ -46,10 +46,10 @@ class Configuration implements CacheItemInterface
 
     /**
      * @param array{
-     *        useObjectClass: string,
-     *        translationClass: string,
-     *        fields: array<int, string>|null,
-     *        fallback: array<string, string>
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
      *      } $configurations
      */
     public function __construct(
@@ -66,10 +66,10 @@ class Configuration implements CacheItemInterface
 
     /**
      * @return array{
-     *        useObjectClass: string,
-     *        translationClass: string,
-     *        fields: array<int, string>|null,
-     *        fallback: array<string, string>
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
      *      }
      */
     public function get(): mixed
@@ -84,10 +84,10 @@ class Configuration implements CacheItemInterface
 
     /**
      * @param array{
-     *        useObjectClass: string,
-     *        translationClass: string,
-     *        fields: array<int, string>|null,
-     *        fallback: array<string, string>
+     *          useObjectClass?: string,
+     *          translationClass?: string,
+     *          fields?: list<string>|null,
+     *          fallback?: array<string, bool>
      *      } $value
      */
     public function set(mixed $value): static
@@ -115,7 +115,7 @@ class Configuration implements CacheItemInterface
             $this->expiry = null;
         } elseif ($time instanceof DateInterval) {
             $this->expiry = microtime(true)
-                + (float) (new DateTime())->add($time)->format('U.u')
+                + (float) new DateTime()->add($time)->format('U.u')
             ;
         } else {
             $this->expiry = $time + microtime(true);

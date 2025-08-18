@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -36,33 +36,27 @@ use Teknoo\East\Translation\Doctrine\Translatable\TranslationManager;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
 #[CoversClass(TranslationManager::class)]
 class TranslationManagerTest extends TestCase
 {
-    public function testDeferringTranslationsLoading()
+    public function testDeferringTranslationsLoading(): void
     {
         $mock = $this->createMock(ODMPersistence::class);
         $mock->expects($this->once())->method('setDeferred')->with(true);
 
-        self::assertInstanceOf(
-            TranslationManager::class,
-            (new TranslationManager($mock))->deferringTranslationsLoading()
-        );
+        $this->assertInstanceOf(TranslationManager::class, new TranslationManager($mock)->deferringTranslationsLoading());
     }
 
-    public function testStopDeferringTranslationsLoading()
+    public function testStopDeferringTranslationsLoading(): void
     {
         $mock = $this->createMock(ODMPersistence::class);
         $mock->expects($this->once())->method('executeAllDeferredLoadings');
         $mock->expects($this->once())->method('setDeferred')->with(false);
 
-        self::assertInstanceOf(
-            TranslationManager::class,
-            (new TranslationManager($mock))->stopDeferringTranslationsLoading()
-        );
+        $this->assertInstanceOf(TranslationManager::class, new TranslationManager($mock)->stopDeferringTranslationsLoading());
     }
 }

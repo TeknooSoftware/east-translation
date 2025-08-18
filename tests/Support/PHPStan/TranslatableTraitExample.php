@@ -23,16 +23,12 @@
 
 declare(strict_types=1);
 
-namespace Teknoo\East\Translation\Doctrine\Translatable\Persistence\Exception;
+namespace Teknoo\Tests\East\Translation\Support\PHPStan;
 
-use RuntimeException;
+use Symfony\Component\Form\AbstractType;
+use Teknoo\East\Translation\Doctrine\Form\Type\TranslatableTrait;
 
-/**
- * @copyright   Copyright (c) EIRL Richard Déloge (https://deloge.io - richard@deloge.io)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
- * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
- * @author      Richard Déloge <richard@teknoo.software>
- */
-class MissingIdGeneratorException extends RuntimeException
+class TranslatableTraitExample extends AbstractType
 {
+    use TranslatableTrait;
 }

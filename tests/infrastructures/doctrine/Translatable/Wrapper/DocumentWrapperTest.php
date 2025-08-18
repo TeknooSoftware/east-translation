@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -43,7 +43,7 @@ use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\WrapperInterface;
  *
  * @link        https://teknoo.software/east/translation project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  *
  */
@@ -83,18 +83,15 @@ class DocumentWrapperTest extends TestCase
         return new DocumentWrapper($this->getObject(), $this->getMeta());
     }
 
-    public function testSetPropertyValue()
+    public function testSetPropertyValue(): void
     {
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->setPropertyValue('foo', 'bar')
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->setPropertyValue('foo', 'bar'));
     }
 
-    public function testSetPropertyValueWithProxy()
+    public function testSetPropertyValueWithProxy(): void
     {
-        $this->object = new class implements TranslatableInterface, GhostObjectInterface {
-            public function setProxyInitializer(?\Closure $initializer = null)
+        $this->object = new class () implements TranslatableInterface, GhostObjectInterface {
+            public function setProxyInitializer(?\Closure $initializer = null): void
             {
             }
 
@@ -125,19 +122,16 @@ class DocumentWrapperTest extends TestCase
             }
         };
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->setPropertyValue('foo', 'bar')
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->setPropertyValue('foo', 'bar'));
     }
 
-    public function testSetObjectPropertyInManagerWithProxy()
+    public function testSetObjectPropertyInManagerWithProxy(): void
     {
         $manager = $this->createMock(ManagerAdapterInterface::class);
         $manager->expects($this->once())->method('setObjectPropertyInManager');
 
-        $this->object = new class implements TranslatableInterface, GhostObjectInterface {
-            public function setProxyInitializer(?\Closure $initializer = null)
+        $this->object = new class () implements TranslatableInterface, GhostObjectInterface {
+            public function setProxyInitializer(?\Closure $initializer = null): void
             {
             }
 
@@ -168,95 +162,74 @@ class DocumentWrapperTest extends TestCase
             }
         };
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->setObjectPropertyInManager($manager, 'bar')
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->setObjectPropertyInManager($manager, 'bar'));
     }
 
-    public function testSetObjectPropertyInManager()
+    public function testSetObjectPropertyInManager(): void
     {
         $manager = $this->createMock(ManagerAdapterInterface::class);
         $manager->expects($this->once())->method('setObjectPropertyInManager');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->setObjectPropertyInManager($manager, 'bar')
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->setObjectPropertyInManager($manager, 'bar'));
     }
 
-    public function testUpdateTranslationRecord()
+    public function testUpdateTranslationRecord(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
         $type = $this->createMock(Type::class);
 
         $translation->expects($this->once())->method('setContent');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->updateTranslationRecord($translation, 'foo', $type)
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->updateTranslationRecord($translation, 'foo', $type));
     }
 
-    public function testLinkTranslationRecord()
+    public function testLinkTranslationRecord(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
 
         $translation->expects($this->once())->method('setForeignKey');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->linkTranslationRecord($translation)
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->linkTranslationRecord($translation));
     }
 
-    public function testloadAllTranslations()
+    public function testloadAllTranslations(): void
     {
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->once())->method('loadAllTranslations');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->loadAllTranslations(
-                $adapter,
-                'fr',
-                'fooClass',
-                'barClass',
-                function() {}
-            )
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->loadAllTranslations(
+            $adapter,
+            'fr',
+            'fooClass',
+            'barClass',
+            function (): void {}
+        ));
     }
 
-    public function testFindTranslation()
+    public function testFindTranslation(): void
     {
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->once())->method('findTranslation');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->findTranslation(
-                $adapter,
-                'fr',
-                'field',
-                'fooClass',
-                'barClass',
-                function() {}
-            )
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->findTranslation(
+            $adapter,
+            'fr',
+            'field',
+            'fooClass',
+            'barClass',
+            function (): void {}
+        ));
     }
 
-    public function testRemoveAssociatedTranslations()
+    public function testRemoveAssociatedTranslations(): void
     {
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->once())->method('removeAssociatedTranslations');
 
-        self::assertInstanceOf(
-            WrapperInterface::class,
-            $this->build()->removeAssociatedTranslations(
-                $adapter,
-                'fooClass',
-                'barClass'
-            )
-        );
+        $this->assertInstanceOf(WrapperInterface::class, $this->build()->removeAssociatedTranslations(
+            $adapter,
+            'fooClass',
+            'barClass'
+        ));
     }
 }

@@ -5,7 +5,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the MIT license
+ * This source file is subject to the 3-Clause BSD license
  * it is available in LICENSE file at the root of this package
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -17,7 +17,7 @@
  *
  * @link        https://teknoo.software/east/translation Project website
  *
- * @license     https://teknoo.software/license/mit         MIT License
+ * @license     http://teknoo.software/license/bsd-3         3-Clause BSD License
  * @author      Richard Déloge <richard@teknoo.software>
  */
 
@@ -124,12 +124,12 @@ return [
             $objectManager,
             $objectManager->getMetadataFactory(),
             $mappingDriver,
-            new class implements DriverFactoryInterface {
+            new class () implements DriverFactoryInterface {
                 public function __invoke(FileLocator $locator): DriverInterface
                 {
                     return new Xml(
                         $locator,
-                        new class implements SimpleXmlFactoryInterface {
+                        new class () implements SimpleXmlFactoryInterface {
                             public function __invoke(string $file): SimpleXMLElement
                             {
                                 return new SimpleXMLElement($file, 0, true);
@@ -145,7 +145,7 @@ return [
             $extensionMetadataFactory,
             $translatableManagerAdapter,
             $persistence,
-            new class implements WrapperFactory {
+            new class () implements WrapperFactory {
                 /**
                  * @param ClassMetadata<IdentifiedObjectInterface> $metadata
                  */
