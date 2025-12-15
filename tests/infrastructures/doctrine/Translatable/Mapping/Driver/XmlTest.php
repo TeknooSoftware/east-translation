@@ -71,7 +71,7 @@ class XmlTest extends TestCase
     public function getSimpleXmlFactory(): SimpleXmlFactoryInterface
     {
         if (!$this->simpleXmlFactory instanceof SimpleXmlFactoryInterface) {
-            $this->simpleXmlFactory = $this->createMock(SimpleXmlFactoryInterface::class);
+            $this->simpleXmlFactory = $this->createStub(SimpleXmlFactoryInterface::class);
 
             $this->simpleXmlFactory
                 ->method('__invoke')
@@ -88,10 +88,10 @@ class XmlTest extends TestCase
 
     public function testReadExtendedMetadataFileNotExist(): void
     {
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn('');
+        $this->getLocator(true)->method('findMappingFile')->willReturn('');
 
         $result = [];
 
@@ -104,10 +104,10 @@ class XmlTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn(
+        $this->getLocator(true)->method('findMappingFile')->willReturn(
             __DIR__.'/support/invalid.xml'
         );
 
@@ -122,10 +122,10 @@ class XmlTest extends TestCase
     {
         $this->expectException(InvalidMappingException::class);
 
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn(
+        $this->getLocator(true)->method('findMappingFile')->willReturn(
             __DIR__.'/support/wrong-translation.xml'
         );
 
@@ -138,10 +138,10 @@ class XmlTest extends TestCase
 
     public function testReadExtendedMetadata(): void
     {
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn(
+        $this->getLocator(true)->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid.xml'
         );
 
@@ -154,10 +154,10 @@ class XmlTest extends TestCase
 
     public function testReadExtendedMetadataWithUseObjectClass(): void
     {
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn(
+        $this->getLocator(true)->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid-with-object-class.xml'
         );
 
@@ -171,10 +171,10 @@ class XmlTest extends TestCase
 
     public function testReadExtendedMetadataWithoutField(): void
     {
-        $classMeta = $this->createMock(ClassMetadata::class);
+        $classMeta = $this->createStub(ClassMetadata::class);
         $classMeta->method('getName')->willReturn('Foo');
 
-        $this->getLocator()->method('findMappingFile')->willReturn(
+        $this->getLocator(true)->method('findMappingFile')->willReturn(
             __DIR__.'/support/valid-without-field.xml'
         );
 

@@ -101,6 +101,7 @@ class DocumentWrapperTest extends TestCase
 
             public function getProxyInitializer(): ?\Closure
             {
+                return null;
             }
 
             public function initializeProxy(): bool
@@ -115,14 +116,17 @@ class DocumentWrapperTest extends TestCase
 
             public function getId(): string
             {
+                return '';
             }
 
             public function getLocaleField(): ?string
             {
+                return null;
             }
 
             public function setLocaleField(?string $localeField): TranslatableInterface
             {
+                return $this;
             }
         };
 
@@ -141,6 +145,7 @@ class DocumentWrapperTest extends TestCase
 
             public function getProxyInitializer(): ?\Closure
             {
+                return null;
             }
 
             public function initializeProxy(): bool
@@ -155,14 +160,17 @@ class DocumentWrapperTest extends TestCase
 
             public function getId(): string
             {
+                return '';
             }
 
             public function getLocaleField(): ?string
             {
+                return null;
             }
 
             public function setLocaleField(?string $localeField): TranslatableInterface
             {
+                return $this;
             }
         };
 

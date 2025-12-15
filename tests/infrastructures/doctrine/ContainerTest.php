@@ -242,8 +242,8 @@ class ContainerTest extends TestCase
     public function testOriginalRecipeInterfaceStatic(): void
     {
         $container = $this->buildContainer();
-        $container->set(OriginalRecipeInterface::class . ':Static', $this->createMock(OriginalRecipeInterface::class));
-        $container->set(LoadTranslationsInterface::class, $this->createMock(LoadTranslationsInterface::class));
+        $container->set(OriginalRecipeInterface::class . ':Static', $this->createStub(OriginalRecipeInterface::class));
+        $container->set(LoadTranslationsInterface::class, $this->createStub(LoadTranslationsInterface::class));
 
         $this->assertInstanceOf(OriginalRecipeInterface::class, $container->get(OriginalRecipeInterface::class . ':Static'));
     }

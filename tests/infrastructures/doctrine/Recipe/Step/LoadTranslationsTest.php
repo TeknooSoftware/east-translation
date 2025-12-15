@@ -48,6 +48,6 @@ class LoadTranslationsTest extends TestCase
     {
         $this->assertInstanceOf(LoadTranslations::class, (new LoadTranslations(null))());
 
-        $this->assertInstanceOf(LoadTranslations::class, (new LoadTranslations($this->createMock(TranslationManagerInterface::class)))());
+        $this->assertInstanceOf(LoadTranslations::class, (new LoadTranslations($this->createStub(TranslationManagerInterface::class)))());
     }
 }

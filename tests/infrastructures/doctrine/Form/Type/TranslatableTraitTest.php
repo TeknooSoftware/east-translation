@@ -45,7 +45,7 @@ class TranslatableTraitTest extends TestCase
 
     public function testBuildForm(): void
     {
-        $builder = $this->createMock(FormBuilderInterface::class);
+        $builder = $this->createStub(FormBuilderInterface::class);
 
         $builder
             ->method('add');
