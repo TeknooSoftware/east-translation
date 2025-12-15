@@ -50,29 +50,29 @@
         "php": "^8.4",
         "ext-json": "*",
         "php-di/php-di": "^7.1.1",
-        "teknoo/recipe": "^7",
-        "teknoo/east-common": "^4"
+        "teknoo/recipe": "^7.2.2",
+        "teknoo/east-common": "^4.1.1"
     },
     "require-dev": {
         "ext-simplexml" : "*",
         "ext-mongodb" : "*",
         "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^12.3.4",
+        "phpunit/phpunit": "^12.5.3",
         "squizlabs/php_codesniffer": "^4",
-        "phpstan/phpstan": "^2",
+        "phpstan/phpstan": "^2.1.33",
         "phpstan/extension-installer": "^1.4.3",
-        "symfony/property-access": "^6.4.24||^7.3",
-        "nikic/php-parser": "^4.18||^5.4",
-        "behat/behat": "^3.18.1",
-        "teknoo/bridge-phpdi-symfony": "^7.1",
+        "symfony/property-access": "^6.4.24||^7.3||^8",
+        "nikic/php-parser": "^5.7",
+        "behat/behat": "^3.29",
+        "teknoo/bridge-phpdi-symfony": "^7.1.2",
         "psr/cache": "^3",
-        "symfony/form": "^6.4.24||^7.3",
-        "symfony/cache": "^6.4.24||^7.3",
-        "symfony/cache-contracts": "^3.6",
+        "symfony/form": "^6.4.24||^7.3||^8",
+        "symfony/cache": "^6.4.24||^7.3||^8",
+        "symfony/cache-contracts": "^3.6||^8",
         "doctrine/common": "^3.5",
-        "doctrine/mongodb-odm": "^2.11.3",
-        "doctrine/mongodb-odm-bundle": "^5.3.1",
-        "doctrine/persistence": "^4"
+        "doctrine/mongodb-odm": "^2.15.2",
+        "doctrine/mongodb-odm-bundle": "^5.5.1",
+        "doctrine/persistence": "^4.1.1"
     },
     "conflict": {
         "doctrine/persistence": "<3.0"

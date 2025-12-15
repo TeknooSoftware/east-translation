@@ -38,12 +38,10 @@ class ObjectOfTestType extends AbstractType
      * @param FormBuilderInterface<ObjectOfTest> $builder
      * @param array<string, string> $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): self
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('text', TextType::class, ['required' => false]);
 
         $this->addTranslatableLocaleFieldHidden($builder);
-
-        return $this;
     }
 }
