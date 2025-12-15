@@ -30,6 +30,8 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Teknoo\East\Common\Contracts\Object\ObjectInterface;
 use Teknoo\East\Translation\Contracts\Object\TranslatableInterface;
@@ -50,29 +52,31 @@ use Teknoo\East\Translation\Doctrine\Translatable\TranslatableListener;
 #[CoversClass(ODM::class)]
 class ODMTest extends TestCase
 {
-    private ?ManagerInterface $eastManager = null;
+    private (ManagerInterface&Stub)|(ManagerInterface&MockObject)|null $eastManager = null;
 
-    private ?DocumentManager $doctrineManager = null;
+    private (DocumentManager&Stub)|(DocumentManager&MockObject)|null $doctrineManager = null;
 
-    /**
-     * @return ManagerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getEastManager(): ManagerInterface
+    public function getEastManager(bool $stub = false): (ManagerInterface&Stub)|(ManagerInterface&MockObject)
     {
         if (!$this->eastManager instanceof ManagerInterface) {
-            $this->eastManager = $this->createMock(ManagerInterface::class);
+            if ($stub) {
+                $this->eastManager = $this->createStub(ManagerInterface::class);
+            } else {
+                $this->eastManager = $this->createMock(ManagerInterface::class);
+            }
         }
 
         return $this->eastManager;
     }
 
-    /**
-     * @return DocumentManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getDoctrineManager(): DocumentManager
+    public function getDoctrineManager(bool $stub = false): (DocumentManager&Stub)|(DocumentManager&MockObject)
     {
         if (!$this->doctrineManager instanceof DocumentManager) {
-            $this->doctrineManager = $this->createMock(DocumentManager::class);
+            if ($stub) {
+                $this->doctrineManager = $this->createStub(DocumentManager::class);
+            } else {
+                $this->doctrineManager = $this->createMock(DocumentManager::class);
+            }
         }
 
         return $this->doctrineManager;
@@ -80,7 +84,7 @@ class ODMTest extends TestCase
 
     public function build(): ODM
     {
-        return new ODM($this->getEastManager(), $this->getDoctrineManager());
+        return new ODM($this->getEastManager(true), $this->getDoctrineManager(true));
     }
 
     public function testOpenBatch(): void

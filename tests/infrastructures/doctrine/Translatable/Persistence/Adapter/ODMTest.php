@@ -34,6 +34,8 @@ use Doctrine\ODM\MongoDB\Types\Type;
 use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use MongoDB\Collection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Teknoo\East\Translation\Doctrine\Translatable\Persistence\Adapter\ODM;
 use Teknoo\East\Translation\Doctrine\Translatable\Persistence\AdapterInterface;
@@ -53,15 +55,16 @@ use Teknoo\East\Translation\Doctrine\Translatable\Wrapper\WrapperInterface;
 #[CoversClass(ODM::class)]
 class ODMTest extends TestCase
 {
-    private ?DocumentManager $manager = null;
+    private (DocumentManager&Stub)|(DocumentManager&MockObject)|null $manager = null;
 
-    /**
-     * @return DocumentManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getManager(): DocumentManager
+    public function getManager(bool $stub = false): (DocumentManager&Stub)|(DocumentManager&MockObject)
     {
         if (!$this->manager instanceof DocumentManager) {
-            $this->manager = $this->createMock(DocumentManager::class);
+            if ($stub) {
+                $this->manager = $this->createStub(DocumentManager::class);
+            } else {
+                $this->manager = $this->createMock(DocumentManager::class);
+            }
         }
 
         return $this->manager;
@@ -69,7 +72,7 @@ class ODMTest extends TestCase
 
     public function build(): ODM
     {
-        return new ODM($this->getManager());
+        return new ODM($this->getManager(true));
     }
 
     public function testLoadAllTranslations(): void

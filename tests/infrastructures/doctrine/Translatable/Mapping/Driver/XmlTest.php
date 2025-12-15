@@ -28,6 +28,8 @@ namespace Teknoo\Tests\East\Translation\Doctrine\Translatable\Mapping\Driver;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileLocator;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Teknoo\East\Translation\Doctrine\Exception\InvalidMappingException;
 use Teknoo\East\Translation\Doctrine\Translatable\Mapping\Driver\SimpleXmlFactoryInterface;
@@ -46,17 +48,18 @@ use Teknoo\East\Translation\Doctrine\Translatable\Mapping\Driver\Xml;
 #[CoversClass(Xml::class)]
 class XmlTest extends TestCase
 {
-    private ?FileLocator $locator = null;
+    private (FileLocator&Stub)|(FileLocator&MockObject)|null $locator = null;
 
     private ?SimpleXmlFactoryInterface $simpleXmlFactory = null;
 
-    /**
-     * @return FileLocator|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getLocator(): FileLocator
+    public function getLocator(bool $stub = false): (FileLocator&Stub)|(FileLocator&MockObject)
     {
         if (!$this->locator instanceof FileLocator) {
-            $this->locator = $this->createMock(FileLocator::class);
+            if ($stub) {
+                $this->locator = $this->createStub(FileLocator::class);
+            } else {
+                $this->locator = $this->createMock(FileLocator::class);
+            }
         }
 
         return $this->locator;
@@ -80,7 +83,7 @@ class XmlTest extends TestCase
 
     public function build(): Xml
     {
-        return new Xml($this->getLocator(), $this->getSimpleXmlFactory());
+        return new Xml($this->getLocator(true), $this->getSimpleXmlFactory());
     }
 
     public function testReadExtendedMetadataFileNotExist(): void

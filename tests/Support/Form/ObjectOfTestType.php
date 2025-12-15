@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace Teknoo\Tests\East\Translation\Support\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Teknoo\East\Translation\Doctrine\Form\Type\TranslatableTrait;
 use Teknoo\Tests\East\Translation\Support\Object\ObjectOfTest;

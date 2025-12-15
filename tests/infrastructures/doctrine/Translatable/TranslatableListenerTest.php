@@ -29,6 +29,8 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use ProxyManager\Proxy\GhostObjectInterface;
 use Teknoo\East\Translation\Contracts\Object\TranslatableInterface;
@@ -56,57 +58,61 @@ use Teknoo\Tests\East\Translation\Support\Object\ObjectOfTest;
 #[CoversClass(TranslatableListener::class)]
 class TranslatableListenerTest extends TestCase
 {
-    private ?ExtensionMetadataFactory $extensionMetadataFactory = null;
+    private (ExtensionMetadataFactory&Stub)|(ExtensionMetadataFactory&MockObject)|null $extensionMetadataFactory = null;
 
-    private ?ManagerAdapterInterface $manager = null;
+    private (ManagerAdapterInterface&Stub)|(ManagerAdapterInterface&MockObject)|null $manager = null;
 
-    private ?PersistenceAdapterInterface $persistence = null;
+    private (PersistenceAdapterInterface&Stub)|(PersistenceAdapterInterface&MockObject)|null $persistence = null;
 
-    private ?FactoryInterface $wrapperFactory = null;
+    private (FactoryInterface&Stub)|(FactoryInterface&MockObject)|null $wrapperFactory = null;
 
-    /**
-     * @return ExtensionMetadataFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getExtensionMetadataFactory(): ExtensionMetadataFactory
+    public function getExtensionMetadataFactory(bool $stub = false): (ExtensionMetadataFactory&Stub)|(ExtensionMetadataFactory&MockObject)
     {
         if (!$this->extensionMetadataFactory instanceof ExtensionMetadataFactory) {
-            $this->extensionMetadataFactory = $this->createMock(ExtensionMetadataFactory::class);
+            if ($stub) {
+                $this->extensionMetadataFactory = $this->createStub(ExtensionMetadataFactory::class);
+            } else {
+                $this->extensionMetadataFactory = $this->createMock(ExtensionMetadataFactory::class);
+            }
         }
 
         return $this->extensionMetadataFactory;
     }
 
-    /**
-     * @return ManagerAdapterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getManager(): ManagerAdapterInterface
+    public function getManager(bool $stub = false): (ManagerAdapterInterface&Stub)|(ManagerAdapterInterface&MockObject)
     {
         if (!$this->manager instanceof ManagerAdapterInterface) {
-            $this->manager = $this->createMock(ManagerAdapterInterface::class);
+            if ($stub) {
+                $this->manager = $this->createStub(ManagerAdapterInterface::class);
+            } else {
+                $this->manager = $this->createMock(ManagerAdapterInterface::class);
+            }
         }
 
         return $this->manager;
     }
 
-    /**
-     * @return PersistenceAdapterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getPersistence(): PersistenceAdapterInterface
+    public function getPersistence(bool $stub = false): (PersistenceAdapterInterface&Stub)|(PersistenceAdapterInterface&MockObject)
     {
         if (!$this->persistence instanceof PersistenceAdapterInterface) {
-            $this->persistence = $this->createMock(PersistenceAdapterInterface::class);
+            if ($stub) {
+                $this->persistence = $this->createStub(PersistenceAdapterInterface::class);
+            } else {
+                $this->persistence = $this->createMock(PersistenceAdapterInterface::class);
+            }
         }
 
         return $this->persistence;
     }
 
-    /**
-     * @return FactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getWrapperFactory(): FactoryInterface
+    public function getWrapperFactory(bool $stub = false): (FactoryInterface&Stub)|(FactoryInterface&MockObject)
     {
         if (!$this->wrapperFactory instanceof FactoryInterface) {
-            $this->wrapperFactory = $this->createMock(FactoryInterface::class);
+            if ($stub) {
+                $this->wrapperFactory = $this->createStub(FactoryInterface::class);
+            } else {
+                $this->wrapperFactory = $this->createMock(FactoryInterface::class);
+            }
         }
 
         return $this->wrapperFactory;
@@ -115,10 +121,10 @@ class TranslatableListenerTest extends TestCase
     public function build(string $locale = 'en', bool $fallback = true): TranslatableListener
     {
         return new TranslatableListener(
-            $this->getExtensionMetadataFactory(),
-            $this->getManager(),
-            $this->getPersistence(),
-            $this->getWrapperFactory(),
+            $this->getExtensionMetadataFactory(true),
+            $this->getManager(true),
+            $this->getPersistence(true),
+            $this->getWrapperFactory(true),
             $locale,
             'en',
             $fallback
