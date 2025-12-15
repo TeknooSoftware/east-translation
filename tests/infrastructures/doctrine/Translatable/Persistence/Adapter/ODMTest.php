@@ -77,7 +77,7 @@ class ODMTest extends TestCase
 
     public function testLoadAllTranslations(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();
@@ -144,7 +144,7 @@ class ODMTest extends TestCase
 
     public function testExecuteAllDeferredLoadingsOnDeferred(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();
@@ -210,7 +210,7 @@ class ODMTest extends TestCase
 
     public function testFindTranslationNotFound(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();
@@ -247,7 +247,7 @@ class ODMTest extends TestCase
 
     public function testFindTranslationFound(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();
@@ -288,7 +288,7 @@ class ODMTest extends TestCase
 
     public function testRemoveAssociatedTranslations(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();
@@ -314,7 +314,7 @@ class ODMTest extends TestCase
 
     public function testRemoveOrphansTranslations(): void
     {
-        $qBuilder = $this->createMock(Builder::class);
+        $qBuilder = $this->createStub(Builder::class);
         $qBuilder
             ->method('field')
             ->willReturnSelf();

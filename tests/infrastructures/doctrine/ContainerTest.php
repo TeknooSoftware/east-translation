@@ -83,7 +83,7 @@ class ContainerTest extends TestCase
     public function testManager(): void
     {
         $container = $this->buildContainer();
-        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager = $this->createStub(ObjectManager::class);
 
         $container->set(ObjectManager::class, $objectManager);
         $this->assertInstanceOf(ManagerInterface::class, $container->get(ManagerInterface::class));
@@ -92,9 +92,9 @@ class ContainerTest extends TestCase
     public function testLocaleMiddlewareWithDocumentManager(): void
     {
         $container = $this->buildContainer();
-        $translatableListener = $this->createMock(TranslatableListener::class);
+        $translatableListener = $this->createStub(TranslatableListener::class);
 
-        $objectManager = $this->createMock(DocumentManager::class);
+        $objectManager = $this->createStub(DocumentManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
         $container->set(TranslatableListener::class, $translatableListener);
@@ -106,7 +106,7 @@ class ContainerTest extends TestCase
     public function testLocaleMiddlewareWithoutDocumentManager(): void
     {
         $container = $this->buildContainer();
-        $translatableListener = $this->createMock(TranslatableListener::class);
+        $translatableListener = $this->createStub(TranslatableListener::class);
 
         $container->set(TranslatableListener::class, $translatableListener);
         $loader = $container->get(LocaleMiddleware::class);
@@ -117,7 +117,7 @@ class ContainerTest extends TestCase
     public function testTranslationListenerWithDocumentManagerWithoutMappingDriver(): void
     {
         $container = $this->buildContainer();
-        $objectManager = $this->createMock(DocumentManager::class);
+        $objectManager = $this->createStub(DocumentManager::class);
         $configuration = new Configuration();
         $objectManager->method('getConfiguration')->willReturn($configuration);
         $objectManager->method('getFilterCollection')->willReturn(new FilterCollection($objectManager));
@@ -134,11 +134,11 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $driver = $this->createMock(MappingDriver::class);
+        $driver = $this->createStub(MappingDriver::class);
 
-        $mappingFactory = $this->createMock(ClassMetadataFactoryInterface::class);
+        $mappingFactory = $this->createStub(ClassMetadataFactoryInterface::class);
 
-        $objectManager = $this->createMock(DocumentManager::class);
+        $objectManager = $this->createStub(DocumentManager::class);
         $configuration = new Configuration();
         $configuration->setMetadataDriverImpl($driver);
         $objectManager->method('getConfiguration')->willReturn($configuration);
@@ -158,11 +158,11 @@ class ContainerTest extends TestCase
         $rpw = $rf->getProperty('wrapperFactory');
         $closure = $rpw->getValue($listener);
 
-        $this->assertInstanceOf(WrapperInterface::class, $closure(new ObjectOfTest(), $this->createMock(ClassMetadata::class)));
+        $this->assertInstanceOf(WrapperInterface::class, $closure(new ObjectOfTest(), $this->createStub(ClassMetadata::class)));
 
         $error = false;
         try {
-            $closure(new ObjectOfTest(), $this->createMock(BaseClassMetadata::class));
+            $closure(new ObjectOfTest(), $this->createStub(BaseClassMetadata::class));
         } catch (\RuntimeException $error) {
             $error = true;
         }
@@ -177,7 +177,7 @@ class ContainerTest extends TestCase
         $rpe = $rf->getProperty('driverFactory');
         $driverFactory = $rpe->getValue($extensionMetadataFactory);
 
-        $driver = $driverFactory($this->createMock(FileLocator::class));
+        $driver = $driverFactory($this->createStub(FileLocator::class));
         $this->assertInstanceOf(DriverInterface::class, $driver);
 
         $rf = new \ReflectionObject($driver);
@@ -193,7 +193,7 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $container->set(ObjectManager::class, $this->createMock(ObjectManager::class));
+        $container->set(ObjectManager::class, $this->createStub(ObjectManager::class));
 
         $this->expectException(\RuntimeException::class);
         $container->get(TranslatableListener::class);
@@ -203,7 +203,7 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $objectManager = $this->createMock(DocumentManager::class);
+        $objectManager = $this->createStub(DocumentManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
         $this->assertInstanceOf(TranslationManager::class, $container->get(TranslationManager::class));
@@ -213,7 +213,7 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $objectManager = $this->createMock(DocumentManager::class);
+        $objectManager = $this->createStub(DocumentManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
         $this->assertInstanceOf(TranslationManager::class, $container->get(TranslationManagerInterface::class));
@@ -223,7 +223,7 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager = $this->createStub(ObjectManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
         $this->assertNull($container->get(TranslationManager::class));
@@ -233,7 +233,7 @@ class ContainerTest extends TestCase
     {
         $container = $this->buildContainer();
 
-        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager = $this->createStub(ObjectManager::class);
         $container->set(ObjectManager::class, $objectManager);
 
         $this->assertNull($container->get(TranslationManager::class));

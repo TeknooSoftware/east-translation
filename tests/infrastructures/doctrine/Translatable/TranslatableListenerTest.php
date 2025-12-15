@@ -196,7 +196,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(NonTranslatableObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $this->getManager()
@@ -212,7 +212,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -260,7 +260,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $this->getManager()
@@ -287,7 +287,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -335,7 +335,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -366,7 +366,7 @@ class TranslatableListenerTest extends TestCase
                 }
             );
 
-        $wrapper = $this->createMock(WrapperInterface::class);
+        $wrapper = $this->createStub(WrapperInterface::class);
         $wrapper
             ->method('loadAllTranslations')
             ->willReturnCallback(
@@ -376,7 +376,7 @@ class TranslatableListenerTest extends TestCase
                     string $translationClass,
                     string $objectClass,
                     callable $callback
-                ) use ($wrapper): \PHPUnit\Framework\MockObject\MockObject {
+                ) use ($wrapper): WrapperInterface {
                     $callback([]);
 
                     return $wrapper;
@@ -386,7 +386,7 @@ class TranslatableListenerTest extends TestCase
         $this->getWrapperFactory()
             ->method('__invoke')
             ->willReturnCallback(
-                fn (TranslatableInterface $object, ClassMetadata $metadata): \PHPUnit\Framework\MockObject\MockObject => $wrapper
+                fn (TranslatableInterface $object, ClassMetadata $metadata): WrapperInterface => $wrapper
             );
 
         $this->assertInstanceOf(TranslatableListener::class, $this->build()->setLocale('fr')->postLoad(
@@ -398,7 +398,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -429,7 +429,7 @@ class TranslatableListenerTest extends TestCase
                 }
             );
 
-        $wrapper = $this->createMock(WrapperInterface::class);
+        $wrapper = $this->createStub(WrapperInterface::class);
         $wrapper
             ->method('loadAllTranslations')
             ->willReturnCallback(
@@ -439,7 +439,7 @@ class TranslatableListenerTest extends TestCase
                     string $translationClass,
                     string $objectClass,
                     callable $callback
-                ) use ($wrapper): \PHPUnit\Framework\MockObject\MockObject {
+                ) use ($wrapper): WrapperInterface {
                     $callback([
                         ['field' => 'title', 'ObjectOfTest' => 'foo'],
                         ['field' => 'subtitle', 'ObjectOfTest' => 'bar'],
@@ -452,7 +452,7 @@ class TranslatableListenerTest extends TestCase
         $this->getWrapperFactory()
             ->method('__invoke')
             ->willReturnCallback(
-                fn (TranslatableInterface $object, ClassMetadata $metadata): \PHPUnit\Framework\MockObject\MockObject => $wrapper
+                fn (TranslatableInterface $object, ClassMetadata $metadata): WrapperInterface => $wrapper
             );
 
         $this->assertInstanceOf(TranslatableListener::class, $this->build()->setLocale('fr')->postLoad(
@@ -464,7 +464,7 @@ class TranslatableListenerTest extends TestCase
     {
         $object = $this->createMock(ObjectOfTest::class);
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -539,7 +539,7 @@ class TranslatableListenerTest extends TestCase
             }
         };
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($object);
 
         $classMeta = $this->createMock(ClassMetadata::class);
@@ -776,7 +776,7 @@ class TranslatableListenerTest extends TestCase
         $listener = $this->build()->setLocale('fr');
         $this->assertInstanceOf(TranslatableListener::class, $listener->onFlush());
 
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn($ObjectOfTest);
         $this->assertInstanceOf(TranslatableListener::class, $listener->postPersist($event));
 
@@ -953,14 +953,14 @@ class TranslatableListenerTest extends TestCase
 
     public function testPostPersistNonTranslatable(): void
     {
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn(new NonTranslatableObjectOfTest());
         $this->assertInstanceOf(TranslatableListener::class, $this->build()->postPersist($event));
     }
 
     public function testPostPersistNonInserted(): void
     {
-        $event = $this->createMock(LifecycleEventArgs::class);
+        $event = $this->createStub(LifecycleEventArgs::class);
         $event->method('getObject')->willReturn(new ObjectOfTest());
         $this->assertInstanceOf(TranslatableListener::class, $this->build()->postPersist($event));
     }

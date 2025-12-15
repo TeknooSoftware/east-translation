@@ -180,7 +180,7 @@ class DocumentWrapperTest extends TestCase
     public function testUpdateTranslationRecord(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $type = $this->createMock(Type::class);
+        $type = $this->createStub(Type::class);
 
         $translation->expects($this->once())->method('setContent');
 
