@@ -28,6 +28,8 @@ namespace Teknoo\Tests\East\Translation\Doctrine\Translatable\Wrapper;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use ProxyManager\Proxy\GhostObjectInterface;
 use Teknoo\East\Translation\Contracts\Object\TranslatableInterface;
@@ -52,27 +54,29 @@ class DocumentWrapperTest extends TestCase
 {
     private ?TranslatableInterface $object = null;
 
-    private ?ClassMetadata $meta = null;
+    private (ClassMetadata&Stub)|(ClassMetadata&MockObject)|null $meta = null;
 
-    /**
-     * @return \Teknoo\East\Translation\Contracts\Object\TranslatableInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getObject(): TranslatableInterface
+    public function getObject(bool $stub = false): TranslatableInterface
     {
         if (!$this->object instanceof TranslatableInterface) {
-            $this->object = $this->createMock(TranslatableInterface::class);
+            if ($stub) {
+                $this->object = $this->createStub(TranslatableInterface::class);
+            } else {
+                $this->object = $this->createMock(TranslatableInterface::class);
+            }
         }
 
         return $this->object;
     }
 
-    /**
-     * @return ClassMetadata|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getMeta(): ClassMetadata
+    public function getMeta(bool $stub = false): (ClassMetadata&Stub)|(ClassMetadata&MockObject)
     {
         if (!$this->meta instanceof ClassMetadata) {
-            $this->meta = $this->createMock(ClassMetadata::class);
+            if ($stub) {
+                $this->meta = $this->createStub(ClassMetadata::class);
+            } else {
+                $this->meta = $this->createMock(ClassMetadata::class);
+            }
         }
 
         return $this->meta;
@@ -80,7 +84,7 @@ class DocumentWrapperTest extends TestCase
 
     public function build(): DocumentWrapper
     {
-        return new DocumentWrapper($this->getObject(), $this->getMeta());
+        return new DocumentWrapper($this->getObject(true), $this->getMeta(true));
     }
 
     public function testSetPropertyValue(): void
@@ -97,6 +101,7 @@ class DocumentWrapperTest extends TestCase
 
             public function getProxyInitializer(): ?\Closure
             {
+                return null;
             }
 
             public function initializeProxy(): bool
@@ -111,14 +116,17 @@ class DocumentWrapperTest extends TestCase
 
             public function getId(): string
             {
+                return '';
             }
 
             public function getLocaleField(): ?string
             {
+                return null;
             }
 
             public function setLocaleField(?string $localeField): TranslatableInterface
             {
+                return $this;
             }
         };
 
@@ -137,6 +145,7 @@ class DocumentWrapperTest extends TestCase
 
             public function getProxyInitializer(): ?\Closure
             {
+                return null;
             }
 
             public function initializeProxy(): bool
@@ -151,14 +160,17 @@ class DocumentWrapperTest extends TestCase
 
             public function getId(): string
             {
+                return '';
             }
 
             public function getLocaleField(): ?string
             {
+                return null;
             }
 
             public function setLocaleField(?string $localeField): TranslatableInterface
             {
+                return $this;
             }
         };
 
@@ -176,7 +188,7 @@ class DocumentWrapperTest extends TestCase
     public function testUpdateTranslationRecord(): void
     {
         $translation = $this->createMock(TranslationInterface::class);
-        $type = $this->createMock(Type::class);
+        $type = $this->createStub(Type::class);
 
         $translation->expects($this->once())->method('setContent');
 

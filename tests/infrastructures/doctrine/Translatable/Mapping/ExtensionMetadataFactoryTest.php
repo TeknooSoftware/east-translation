@@ -34,6 +34,7 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Teknoo\East\Translation\Doctrine\Exception\InvalidMappingException;
@@ -59,59 +60,63 @@ use Teknoo\Tests\East\Translation\Support\Object\ObjectOfTest;
 #[CoversClass(ExtensionMetadataFactory::class)]
 class ExtensionMetadataFactoryTest extends TestCase
 {
-    private ?ObjectManager $objectManager = null;
+    private (ObjectManager&Stub)|(ObjectManager&MockObject)|null $objectManager = null;
 
-    private ?ClassMetadataFactoryInterface $classMetadataFactory = null;
+    private (ClassMetadataFactoryInterface&Stub)|(ClassMetadataFactoryInterface&MockObject)|null $classMetadataFactory = null;
 
-    private ?MappingDriver $mappingDriver = null;
+    private (MappingDriver&Stub)|(MappingDriver&MockObject)|null $mappingDriver = null;
 
     private ?DriverFactoryInterface $driverFactory = null;
 
-    private ?CacheItemPoolInterface $cache = null;
+    private (CacheItemPoolInterface&Stub)|(CacheItemPoolInterface&MockObject)|null $cache = null;
 
-    /**
-     * @return ObjectManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getObjectManager(): ObjectManager
+    public function getObjectManager(bool $stub = false): (ObjectManager&Stub)|(ObjectManager&MockObject)
     {
         if (!$this->objectManager instanceof ObjectManager) {
-            $this->objectManager = $this->createMock(ObjectManager::class);
+            if ($stub) {
+                $this->objectManager = $this->createStub(ObjectManager::class);
+            } else {
+                $this->objectManager = $this->createMock(ObjectManager::class);
+            }
         }
 
         return $this->objectManager;
     }
 
-    /**
-     * @return ClassMetadataFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getClassMetadataFactory(): ClassMetadataFactoryInterface
+    public function getClassMetadataFactory(bool $stub = false): (ClassMetadataFactoryInterface&Stub)|(ClassMetadataFactoryInterface&MockObject)
     {
         if (!$this->classMetadataFactory instanceof ClassMetadataFactoryInterface) {
-            $this->classMetadataFactory = $this->createMock(ClassMetadataFactoryInterface::class);
+            if ($stub) {
+                $this->classMetadataFactory = $this->createStub(ClassMetadataFactoryInterface::class);
+            } else {
+                $this->classMetadataFactory = $this->createMock(ClassMetadataFactoryInterface::class);
+            }
         }
 
         return $this->classMetadataFactory;
     }
 
-    /**
-     * @return MappingDriver|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getMappingDriver(): MappingDriver
+    public function getMappingDriver(bool $stub = false): (MappingDriver&Stub)|(MappingDriver&MockObject)
     {
         if (!$this->mappingDriver instanceof MappingDriver) {
-            $this->mappingDriver = $this->createMock(MappingDriver::class);
+            if ($stub) {
+                $this->mappingDriver = $this->createStub(MappingDriver::class);
+            } else {
+                $this->mappingDriver = $this->createMock(MappingDriver::class);
+            }
         }
 
         return $this->mappingDriver;
     }
 
-    /**
-     * @return MappingDriver|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getCacheMock(): CacheItemPoolInterface&MockObject
+    public function getCacheMock(bool $stub = false): (CacheItemPoolInterface&Stub)|(CacheItemPoolInterface&MockObject)
     {
         if (!$this->cache instanceof CacheItemPoolInterface) {
-            $this->cache = $this->createMock(CacheItemPoolInterface::class);
+            if ($stub) {
+                $this->cache = $this->createStub(CacheItemPoolInterface::class);
+            } else {
+                $this->cache = $this->createMock(CacheItemPoolInterface::class);
+            }
         }
 
         return $this->cache;
@@ -123,16 +128,16 @@ class ExtensionMetadataFactoryTest extends TestCase
     public function getDriverFactory(?string $useObjectClass = null): DriverFactoryInterface
     {
         if (!$this->driverFactory instanceof DriverFactoryInterface) {
-            $this->driverFactory = $this->createMock(DriverFactoryInterface::class);
+            $this->driverFactory = $this->createStub(DriverFactoryInterface::class);
 
             $this->driverFactory
                 ->method('__invoke')
-                ->willReturnCallback(function () use ($useObjectClass): \PHPUnit\Framework\MockObject\MockObject {
-                    $driver = $this->createMock(DriverInterface::class);
+                ->willReturnCallback(function () use ($useObjectClass): DriverInterface {
+                    $driver = $this->createStub(DriverInterface::class);
                     $driver
                         ->method('readExtendedMetadata')
                         ->willReturnCallback(
-                            function (ClassMetadata $meta, array &$config) use ($driver, $useObjectClass): \PHPUnit\Framework\MockObject\MockObject {
+                            function (ClassMetadata $meta, array &$config) use ($driver, $useObjectClass): DriverInterface {
                                 if (!empty($useObjectClass)) {
                                     $config['useObjectClass'] = $useObjectClass;
                                 }
@@ -154,11 +159,11 @@ class ExtensionMetadataFactoryTest extends TestCase
     public function build(?string $useObjectClass = null): ExtensionMetadataFactory
     {
         return new ExtensionMetadataFactory(
-            $this->getObjectManager(),
-            $this->getClassMetadataFactory(),
-            $this->getMappingDriver(),
+            $this->getObjectManager(true),
+            $this->getClassMetadataFactory(true),
+            $this->getMappingDriver(true),
             $this->getDriverFactory($useObjectClass),
-            $this->getCacheMock(),
+            $this->getCacheMock(true),
         );
     }
 
@@ -389,9 +394,9 @@ class ExtensionMetadataFactoryTest extends TestCase
             }
         };
 
-        $this->mappingDriver = $this->createMock(FileDriver::class);
+        $this->mappingDriver = $this->createStub(FileDriver::class);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $this->mappingDriver->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
@@ -472,9 +477,9 @@ class ExtensionMetadataFactoryTest extends TestCase
             }
         };
 
-        $this->mappingDriver = $this->createMock(FileDriver::class);
+        $this->mappingDriver = $this->createStub(FileDriver::class);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $this->mappingDriver->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
@@ -562,16 +567,16 @@ class ExtensionMetadataFactoryTest extends TestCase
             }
         };
 
-        $this->mappingDriver = $this->createMock(MappingDriverChain::class);
-        $fileDriver = $this->createMock(FileDriver::class);
+        $this->mappingDriver = $this->createStub(MappingDriverChain::class);
+        $fileDriver = $this->createStub(FileDriver::class);
 
         $this->mappingDriver->method('getDrivers')->willReturn([
-            $this->createMock(MappingDriver::class),
-            $this->createMock(MappingDriver::class),
+            $this->createStub(MappingDriver::class),
+            $this->createStub(MappingDriver::class),
             $fileDriver
         ]);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $fileDriver->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
@@ -651,21 +656,21 @@ class ExtensionMetadataFactoryTest extends TestCase
             }
         };
 
-        $this->mappingDriver = $this->createMock(FileDriver::class);
+        $this->mappingDriver = $this->createStub(FileDriver::class);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $this->mappingDriver->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
         $listener->expects($this->once())->method('injectConfiguration');
 
-        $this->getClassMetadataFactory()
+        $this->getClassMetadataFactory(true)
             ->method('hasMetadataFor')
             ->willReturn(true);
 
-        $this->getObjectManager()
+        $this->getObjectManager(true)
             ->method('getClassMetadata')
-            ->willReturn($this->createMock(ClassMetadata::class));
+            ->willReturn($this->createStub(ClassMetadata::class));
 
         $this->assertInstanceOf(ExtensionMetadataFactory::class, $this->build()->loadExtensionMetadata($meta, $listener));
     }
@@ -741,15 +746,15 @@ class ExtensionMetadataFactoryTest extends TestCase
             }
         };
 
-        $this->mappingDriver = $this->createMock(FileDriver::class);
+        $this->mappingDriver = $this->createStub(FileDriver::class);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $this->mappingDriver->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
         $listener->expects($this->once())->method('injectConfiguration');
 
-        $this->getCacheMock()->method('hasItem')->willReturn(false);
+        $this->getCacheMock(true)->method('hasItem')->willReturn(false);
 
         $this->assertInstanceOf(ExtensionMetadataFactory::class, $this->build()->loadExtensionMetadata($meta, $listener));
     }
@@ -827,14 +832,14 @@ class ExtensionMetadataFactoryTest extends TestCase
 
         $this->mappingDriver = $this->createMock(FileDriver::class);
 
-        $locator = $this->createMock(FileLocator::class);
+        $locator = $this->createStub(FileLocator::class);
         $this->mappingDriver->expects($this->never())->method('getLocator')->willReturn($locator);
 
         $listener = $this->createMock(TranslatableListener::class);
         $listener->expects($this->once())->method('injectConfiguration');
 
-        $this->getCacheMock()->method('hasItem')->willReturn(true);
-        $this->getCacheMock()->method('getItem')->willReturn(
+        $this->getCacheMock(true)->method('hasItem')->willReturn(true);
+        $this->getCacheMock(true)->method('getItem')->willReturn(
             new Configuration('foo', [])
         );
 
@@ -844,7 +849,7 @@ class ExtensionMetadataFactoryTest extends TestCase
     public function testSetCache(): void
     {
         $this->assertInstanceOf(ExtensionMetadataFactory::class, $this->build()->setCache(
-            $this->createMock(CacheItemPoolInterface::class),
+            $this->createStub(CacheItemPoolInterface::class),
         ));
     }
 }

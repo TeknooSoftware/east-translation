@@ -30,6 +30,8 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Teknoo\East\Common\Contracts\Object\ObjectInterface;
 use Teknoo\East\Translation\Contracts\Object\TranslatableInterface;
@@ -50,29 +52,31 @@ use Teknoo\East\Translation\Doctrine\Translatable\TranslatableListener;
 #[CoversClass(ODM::class)]
 class ODMTest extends TestCase
 {
-    private ?ManagerInterface $eastManager = null;
+    private (ManagerInterface&Stub)|(ManagerInterface&MockObject)|null $eastManager = null;
 
-    private ?DocumentManager $doctrineManager = null;
+    private (DocumentManager&Stub)|(DocumentManager&MockObject)|null $doctrineManager = null;
 
-    /**
-     * @return ManagerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getEastManager(): ManagerInterface
+    public function getEastManager(bool $stub = false): (ManagerInterface&Stub)|(ManagerInterface&MockObject)
     {
         if (!$this->eastManager instanceof ManagerInterface) {
-            $this->eastManager = $this->createMock(ManagerInterface::class);
+            if ($stub) {
+                $this->eastManager = $this->createStub(ManagerInterface::class);
+            } else {
+                $this->eastManager = $this->createMock(ManagerInterface::class);
+            }
         }
 
         return $this->eastManager;
     }
 
-    /**
-     * @return DocumentManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getDoctrineManager(): DocumentManager
+    public function getDoctrineManager(bool $stub = false): (DocumentManager&Stub)|(DocumentManager&MockObject)
     {
         if (!$this->doctrineManager instanceof DocumentManager) {
-            $this->doctrineManager = $this->createMock(DocumentManager::class);
+            if ($stub) {
+                $this->doctrineManager = $this->createStub(DocumentManager::class);
+            } else {
+                $this->doctrineManager = $this->createMock(DocumentManager::class);
+            }
         }
 
         return $this->doctrineManager;
@@ -80,7 +84,7 @@ class ODMTest extends TestCase
 
     public function build(): ODM
     {
-        return new ODM($this->getEastManager(), $this->getDoctrineManager());
+        return new ODM($this->getEastManager(true), $this->getDoctrineManager(true));
     }
 
     public function testOpenBatch(): void
@@ -99,7 +103,7 @@ class ODMTest extends TestCase
 
     public function testPersist(): void
     {
-        $object = $this->createMock(ObjectInterface::class);
+        $object = $this->createStub(ObjectInterface::class);
         $this->getEastManager()->expects($this->once())->method('persist')->with($object);
 
         $this->assertInstanceOf(ODM::class, $this->build()->persist($object));
@@ -107,7 +111,7 @@ class ODMTest extends TestCase
 
     public function testRemove(): void
     {
-        $object = $this->createMock(ObjectInterface::class);
+        $object = $this->createStub(ObjectInterface::class);
         $this->getEastManager()->expects($this->once())->method('remove')->with($object);
 
         $this->assertInstanceOf(ODM::class, $this->build()->remove($object));
@@ -144,7 +148,7 @@ class ODMTest extends TestCase
     public function testFindClassMetadata(): void
     {
         $class = 'Foo\Bar';
-        $meta = $this->createMock(ClassMetadata::class);
+        $meta = $this->createStub(ClassMetadata::class);
 
         $this->getDoctrineManager()
             ->expects($this->once())
@@ -160,10 +164,10 @@ class ODMTest extends TestCase
 
     public function testIfObjectHasChangeSetEmpty(): void
     {
-        $object = $this->createMock(TranslatableInterface::class);
+        $object = $this->createStub(TranslatableInterface::class);
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $this->getDoctrineManager()
+        $uow = $this->createStub(UnitOfWork::class);
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -178,12 +182,12 @@ class ODMTest extends TestCase
 
     public function testIfObjectHasChangeSet(): void
     {
-        $object = $this->createMock(TranslatableInterface::class);
+        $object = $this->createStub(TranslatableInterface::class);
 
         $changset = ['foo1' => ['bar', 'baba'], 'foo2' => ['bar', 'baba']];
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $this->getDoctrineManager()
+        $uow = $this->createStub(UnitOfWork::class);
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -202,14 +206,14 @@ class ODMTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $meta = $this->createMock(BaseClassMetadata::class);
-        $object = $this->createMock(TranslatableInterface::class);
+        $meta = $this->createStub(BaseClassMetadata::class);
+        $object = $this->createStub(TranslatableInterface::class);
 
         $uow = $this->createMock(UnitOfWork::class);
         $uow->expects($this->never())->method('clearDocumentChangeSet');
         $uow->expects($this->never())->method('recomputeSingleDocumentChangeSet');
 
-        $this->getDoctrineManager()
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -218,14 +222,14 @@ class ODMTest extends TestCase
 
     public function testRecomputeSingleObjectChangeSet(): void
     {
-        $meta = $this->createMock(ClassMetadata::class);
-        $object = $this->createMock(TranslatableInterface::class);
+        $meta = $this->createStub(ClassMetadata::class);
+        $object = $this->createStub(TranslatableInterface::class);
 
         $uow = $this->createMock(UnitOfWork::class);
         $uow->expects($this->once())->method('clearDocumentChangeSet');
         $uow->expects($this->once())->method('recomputeSingleDocumentChangeSet');
 
-        $this->getDoctrineManager()
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -236,8 +240,8 @@ class ODMTest extends TestCase
     {
         $list = [new \stdClass(), new \stdClass()];
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $this->getDoctrineManager()
+        $uow = $this->createStub(UnitOfWork::class);
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -256,8 +260,8 @@ class ODMTest extends TestCase
     {
         $list = [new \stdClass(), new \stdClass()];
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $this->getDoctrineManager()
+        $uow = $this->createStub(UnitOfWork::class);
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -276,8 +280,8 @@ class ODMTest extends TestCase
     {
         $list = [new \stdClass(), new \stdClass()];
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $this->getDoctrineManager()
+        $uow = $this->createStub(UnitOfWork::class);
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
@@ -297,7 +301,7 @@ class ODMTest extends TestCase
         $uow = $this->createMock(UnitOfWork::class);
         $uow->expects($this->once())->method('setOriginalDocumentProperty');
 
-        $this->getDoctrineManager()
+        $this->getDoctrineManager(true)
             ->method('getUnitOfWork')
             ->willReturn($uow);
 
