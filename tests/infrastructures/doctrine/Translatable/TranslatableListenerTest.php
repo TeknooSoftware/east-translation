@@ -177,7 +177,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title'], 'fallback' => []]
@@ -220,7 +220,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -233,7 +233,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => [], 'fallback' => []]
@@ -266,7 +266,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                fn (string $class, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface => $this->getManager(true)
+                fn (string $class, TranslatableListener $listener): ManagerAdapterInterface => $this->getManager(true)
             );
 
         $wrapper = $this->createMock(WrapperInterface::class);
@@ -295,7 +295,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -308,7 +308,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -343,7 +343,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -356,7 +356,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -406,7 +406,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -419,7 +419,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -475,7 +475,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -550,7 +550,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -563,7 +563,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -617,7 +617,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -630,7 +630,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -656,7 +656,7 @@ class TranslatableListenerTest extends TestCase
 
         $this->getManager()
             ->method('foreachScheduledObjectInsertions')
-            ->willReturnCallback(function (callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback(new ObjectOfTest());
 
@@ -665,7 +665,7 @@ class TranslatableListenerTest extends TestCase
 
         $this->getManager()
             ->method('foreachScheduledObjectUpdates')
-            ->willReturnCallback(function (callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback(new ObjectOfTest());
 
@@ -674,7 +674,7 @@ class TranslatableListenerTest extends TestCase
 
         $this->getManager()
             ->method('foreachScheduledObjectDeletions')
-            ->willReturnCallback(function (callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback(new ObjectOfTest());
 
@@ -694,7 +694,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -707,7 +707,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -744,7 +744,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('ifObjectHasChangeSet')
             ->willReturnCallback(
-                function ($object, callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function ($object, callable $callback): ManagerAdapterInterface {
                     $callback(['title' => ['foo', 'foo1']]);
 
                     return $this->getManager(true);
@@ -754,7 +754,7 @@ class TranslatableListenerTest extends TestCase
         $ObjectOfTest = new ObjectOfTest();
         $this->getManager()
             ->method('foreachScheduledObjectInsertions')
-            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback($ObjectOfTest);
 
@@ -763,7 +763,7 @@ class TranslatableListenerTest extends TestCase
 
         $this->getManager()
             ->method('foreachScheduledObjectUpdates')
-            ->willReturnCallback(function (callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback(new ObjectOfTest());
 
@@ -772,7 +772,7 @@ class TranslatableListenerTest extends TestCase
 
         $this->getManager()
             ->method('foreachScheduledObjectDeletions')
-            ->willReturnCallback(function (callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback(new ObjectOfTest());
 
@@ -811,7 +811,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -824,7 +824,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -850,7 +850,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('ifObjectHasChangeSet')
             ->willReturnCallback(
-                function ($object, callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function ($object, callable $callback): ManagerAdapterInterface {
                     $callback(['title' => ['foo', 'foo1']]);
 
                     return $this->getManager(true);
@@ -860,7 +860,7 @@ class TranslatableListenerTest extends TestCase
         $ObjectOfTest = new ObjectOfTest();
         $this->getManager(true)
             ->method('foreachScheduledObjectInsertions')
-            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback($ObjectOfTest);
 
@@ -895,7 +895,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('findClassMetadata')
             ->willReturnCallback(
-                function (string $class, TranslatableListener $listener) use ($classMeta): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function (string $class, TranslatableListener $listener) use ($classMeta): ManagerAdapterInterface {
                     $listener->registerClassMetadata(
                         $class,
                         $classMeta
@@ -908,7 +908,7 @@ class TranslatableListenerTest extends TestCase
         $this->getExtensionMetadataFactory(true)
             ->method('loadExtensionMetadata')
             ->willReturnCallback(
-                function (ClassMetadata $metaData, TranslatableListener $listener): \Teknoo\East\Translation\Doctrine\Translatable\Mapping\ExtensionMetadataFactory {
+                function (ClassMetadata $metaData, TranslatableListener $listener): ExtensionMetadataFactory {
                     $listener->injectConfiguration(
                         $metaData,
                         ['fields' => ['title', 'subtitle'], 'fallback' => [], 'translationClass' => Translation::class, 'useObjectClass' => ObjectOfTest::class]
@@ -934,7 +934,7 @@ class TranslatableListenerTest extends TestCase
         $this->getManager(true)
             ->method('ifObjectHasChangeSet')
             ->willReturnCallback(
-                function ($object, callable $callback): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+                function ($object, callable $callback): ManagerAdapterInterface {
                     $callback(['title' => ['foo', 'foo1']]);
 
                     return $this->getManager(true);
@@ -944,7 +944,7 @@ class TranslatableListenerTest extends TestCase
         $ObjectOfTest = new ObjectOfTest();
         $this->getManager(true)
             ->method('foreachScheduledObjectInsertions')
-            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): \Teknoo\East\Translation\Doctrine\Translatable\ObjectManager\AdapterInterface {
+            ->willReturnCallback(function (callable $callback) use ($ObjectOfTest): ManagerAdapterInterface {
                 $callback(new NonTranslatableObjectOfTest());
                 $callback($ObjectOfTest);
 

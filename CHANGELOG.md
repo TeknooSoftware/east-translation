@@ -1,5 +1,11 @@
  # Teknoo Software - Translation - Change Log
 
+## [2.0.1] - 2025-12-14
+### Stable Release
+- Fix bc break introduced into patch of phpstan and phpunit
+- Support PHPStan 2.1.33+
+- Support PHPUnit 12.5.1+
+
 ## [2.0.0] - 2025-08-18
 ### Stable Release
 - Drop support of PHP 8.3
