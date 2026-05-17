@@ -6,7 +6,9 @@
                                             http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
     <document name="Teknoo\East\Translation\Doctrine\Object\Translation" collection="translations">
-        <id type="string" strategy="UUID"/>
+        <id type="string" strategy="CUSTOM">
+            <generator-option name="class" value="Teknoo\East\Common\Doctrine\IdGenerator\UuidV7Generator"/>
+        </id>
         <field field-name="locale" type="string" nullable="false"/>
         <field field-name="objectClass" name="object_class" type="string" nullable="false"/>
         <field field-name="field" type="string" nullable="false"/>

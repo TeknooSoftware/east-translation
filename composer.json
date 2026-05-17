@@ -51,7 +51,7 @@
         "ext-json": "*",
         "php-di/php-di": "^7.1.1",
         "teknoo/recipe": "^7.2.2",
-        "teknoo/east-common": "^4.1.2"
+        "teknoo/east-common": "^4.5"
     },
     "require-dev": {
         "ext-simplexml" : "*",
@@ -69,6 +69,7 @@
         "symfony/form": "^6.4.24||^7.4||^8",
         "symfony/cache": "^6.4.24||^7.4||^8",
         "symfony/cache-contracts": "^3.6||^8",
+        "symfony/uid": "^6.4.24||^7.4||^8",
         "doctrine/common": "^3.5",
         "doctrine/mongodb-odm": "^2.16.1",
         "doctrine/mongodb-odm-bundle": "^5.6",

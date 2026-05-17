@@ -1,5 +1,15 @@
  # Teknoo Software - Translation - Change Log
 
+## [2.1.0] - 2026-05-17
+### Stable Release
+- Use new `Teknoo\East\Common\Doctrine\IdGenerator\UuidV7Generator` (`infrastructures/doctrine/IdGenerator/`),
+  a Doctrine ODM `IdGenerator` returning RFC 4122 UUID v7 strings (time-ordered) via `Symfony\Component\Uid\Uuid::v7()`.
+- Doctrine ODM mappings switched from built-in `strategy="UUID"` (v4) to `strategy="CUSTOM"` referencing `UuidV7Generator`.
+- Backward compatible with documents already persisted with previous UUID versions: existing ids
+  keep loading unchanged (the generator only runs when a new document has no id).
+- New optional dependency: `symfony/uid` (declared in `require-dev` and listed under `suggest`;
+  applications using the shipped Doctrine ODM mapping must add it to their own `require`).
+
 ## [2.0.1] - 2025-12-14
 ### Stable Release
 - Fix bc break introduced into patch of phpstan and phpunit
