@@ -26,4 +26,10 @@ parameters:
         -
             message: '#ClassMetadata<object>#'
             path: infrastructures/doctrine/Translatable/
+        -
+            message: '#undefined property #'
+            path: infrastructures/doctrine/Translatable/Persistence/Adapter/ODM.php
+        -
+            message: '#generate#'
+            path: infrastructures/doctrine/Translatable/Persistence/Adapter/ODM.php
 

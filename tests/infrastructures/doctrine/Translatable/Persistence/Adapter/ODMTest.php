@@ -35,6 +35,7 @@ use Doctrine\Persistence\Mapping\ClassMetadata as BaseClassMetadata;
 use MongoDB\Collection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Runtime\PropertyHook;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Teknoo\East\Translation\Doctrine\Translatable\Persistence\Adapter\ODM;
@@ -395,6 +396,8 @@ class ODMTest extends TestCase
         $meta->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
         $meta->method('getFieldValue')->willReturn('bar');
         $meta->generatorType = ClassMetadata::GENERATOR_TYPE_NONE;
+        $meta->method(PropertyHook::get('generatorType'))
+            ->willReturn(ClassMetadata::GENERATOR_TYPE_NONE);
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->once())->method('insertOne');
@@ -438,8 +441,11 @@ class ODMTest extends TestCase
         $meta->method('getFieldNames')->willReturn(['foo']);
         $meta->method('getFieldMapping')->willReturn(['fieldName' => 'foo']);
         $meta->method('getFieldValue')->willReturn('bar');
-        $meta->generatorType = ClassMetadata::GENERATOR_TYPE_UUID;
         $meta->idGenerator = $this->createStub(IdGenerator::class);
+        $meta->method(PropertyHook::get('generatorType'))
+            ->willReturn(ClassMetadata::GENERATOR_TYPE_UUID);
+        $meta->method(PropertyHook::get('idGenerator'))
+            ->willReturn($this->createStub(IdGenerator::class));
 
         $collection = $this->createMock(Collection::class);
         $collection->expects($this->once())->method('insertOne');

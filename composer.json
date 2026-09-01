@@ -57,9 +57,9 @@
         "ext-simplexml" : "*",
         "ext-mongodb" : "*",
         "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^13",
+        "phpunit/phpunit": "^13.3.2",
         "squizlabs/php_codesniffer": "^4.0.1",
-        "phpstan/phpstan": "^2.1.38",
+        "phpstan/phpstan": "^2.2.12",
         "phpstan/extension-installer": "^1.4.3",
         "symfony/property-access": "^6.4.24||^7.4||^8.1",
         "nikic/php-parser": "^5.7",
@@ -71,9 +71,9 @@
         "symfony/cache-contracts": "^3.6||^8",
         "symfony/uid": "^6.4.24||^7.4||^8.1",
         "doctrine/common": "^3.5",
-        "doctrine/mongodb-odm": "^2.16.1",
+        "doctrine/mongodb-odm": "^2.17",
         "doctrine/mongodb-odm-bundle": "^5.6",
-        "doctrine/persistence": "^4.1.1"
+        "doctrine/persistence": "^4.2"
     },
     "conflict": {
         "doctrine/persistence": "<3.0"
