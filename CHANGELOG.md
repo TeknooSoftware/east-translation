@@ -1,5 +1,10 @@
  # Teknoo Software - Translation - Change Log
 
+## [2.1.1] - 2026-11-10
+### Stable Release
+#### Fix
+- Remove doctrine/common
+
 ## [2.1.0] - 2026-05-17
 ### Stable Release
 - Use new `Teknoo\East\Common\Doctrine\IdGenerator\UuidV7Generator` (`infrastructures/doctrine/IdGenerator/`),
