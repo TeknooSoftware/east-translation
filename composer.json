@@ -51,7 +51,7 @@
         "ext-json": "*",
         "php-di/php-di": "^7.1.1",
         "teknoo/recipe": "^7.2.2",
-        "teknoo/east-common": "^4.5",
+        "teknoo/east-common": "^4.10.1",
         "doctrine/event-manager": "^2.1"
     },
     "require-dev": {
